@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
+import './bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import App from './components/App/App';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
