@@ -39,7 +39,6 @@ const AdminContainer = () => {
             <Switch>
               <Route path="/admin/info" component={InfoContainer} />
               <Route path="/admin/room" component={ManageRoom} />
-              <Redirect path="/admin/info" to={InfoContainer} />
             </Switch>
           </div>
         </div>

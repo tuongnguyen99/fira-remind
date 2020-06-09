@@ -4,15 +4,15 @@ import className from "classname";
 
 const InfoCardGroup = ({ items, activeItem, onItemChange }) => {
   return (
-    <div class="card">
-      <div class="card-header">Thông tin</div>
-      <div class="card-body">
-        <div class="row d-flex justify-content-around">
+    <div className="card">
+      <div className="card-header">Thông tin</div>
+      <div className="card-body">
+        <div className="row d-flex justify-content-around">
           {items.map((item) => {
             return (
-              <div class="col-xs-1-12 flex-fill">
+              <div key={item.id} className="col-xs-1-12 flex-fill">
                 <Link
-                  class={className("card px-4 m-4", {
+                  className={className("card px-4 m-4", {
                     "bg-primary text-light": activeItem.id === item.id,
                   })}
                   to="/admin/info/teachers"
@@ -20,10 +20,10 @@ const InfoCardGroup = ({ items, activeItem, onItemChange }) => {
                     onItemChange(item);
                   }}
                 >
-                  <div class="card-body">
-                    <h3 class="card-title">
+                  <div className="card-body">
+                    <h3 className="card-title">
                       <i
-                        class={className(
+                        className={className(
                           "fas mr-2",
                           // { [`fas-${item.icon}`]: item.icon })
                           { [`fa-${item.icon}`]: item.icon }
@@ -31,7 +31,7 @@ const InfoCardGroup = ({ items, activeItem, onItemChange }) => {
                       ></i>
                       199
                     </h3>
-                    <p class="card-text">{item.value}</p>
+                    <p className="card-text">{item.value}</p>
                   </div>
                 </Link>
               </div>

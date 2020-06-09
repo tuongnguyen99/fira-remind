@@ -1,98 +1,111 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import InfoCardGroup from "../components/InfoCardGroup";
-import { infoCardItems } from "../constants";
+import {
+  infoCardItems,
+  teacherColumns,
+  roomColumns,
+  logsColumns,
+} from "../constants";
 import CardWithHeader from "../components/Common/CardWithHeader";
 import Table from "../components/Common/Table";
+import Spinner from "../components/Common/Spinner";
+import TableContainer from "../components/Common/TableContainer/TableContainer";
+import CardContainer from "../components/Common/CardContainer";
+import CardHeader from "../components/Common/CardHeader";
+import CardBody from "../components/Common/CardBody";
+import SearchBox from "../components/Common/SearchBox";
+const axios = require("axios");
 
 const InfoContainer = () => {
   const [infoActive, setInfoActive] = useState(infoCardItems[0]);
-  const onItemChange = (item) => {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchContent, setSearchContent] = useState("");
+
+  useEffect(() => {
+    getData(infoCardItems[0].apiPath);
+  }, []);
+
+  const handleItemChange = (item) => {
+    console.log("onChange");
     setInfoActive(item);
+    getData(item.apiPath);
   };
 
-  const columns = [
-    { name: "id", title: "Mã số" },
-    { name: "name", title: "Họ tên" },
-    { name: "gender", title: "Phái" },
-    { name: "subject", title: "Bộ môn" },
-    { name: "degree", title: "Học vị" },
-  ];
+  const handleSearchChange = ({ target }) => {
+    setSearchContent(target.value);
+  };
 
-  const data = [
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-    {
-      id: "90011",
-      name: "Nguyen Van A",
-      gender: "Nam",
-      subject: "Nhập môn lập trình",
-      degree: "Thạc sĩ",
-    },
-  ];
+  const handleSearchClick = (e) => {
+    e.preventDefault();
+    getData(infoCardItems[0].apiPath);
+    console.log(searchContent);
+  };
+
+  const getColumns = () => {
+    switch (infoActive.id) {
+      case "1":
+        return teacherColumns;
+      case "2":
+        return roomColumns;
+      case "3":
+        return roomColumns;
+      case "4":
+        return logsColumns;
+      default:
+        return roomColumns;
+    }
+  };
+
+  const getData = (path) => {
+    setIsLoading(true);
+    axios
+      .get(`https://5edf50379ed06d001696d08b.mockapi.io/api${path}`)
+      .then(({ data }) => {
+        if (searchContent.trim().length === "") {
+          setData(data);
+          setIsLoading(false);
+        } else {
+          const filtered = data.filter((item) => {
+            return item.name.includes(searchContent);
+          });
+          setData(filtered);
+          setIsLoading(false);
+        }
+        setIsLoading(false);
+      });
+  };
 
   return (
-    <div>
+    <div className="mb-2">
       <InfoCardGroup
         items={infoCardItems}
         activeItem={infoActive}
-        onItemChange={onItemChange}
+        onItemChange={handleItemChange}
       />
-      <CardWithHeader title={infoActive.value} className="mt-4">
-        <Table
-          tableType="striped"
-          theadType="dark"
-          columns={columns}
-          data={data}
-        />
-      </CardWithHeader>
+      <CardContainer style={{ marginTop: 10 }}>
+        <CardHeader title={infoActive.value}>
+          <SearchBox
+            value={searchContent}
+            onChange={handleSearchChange}
+            onClick={handleSearchClick}
+          />
+        </CardHeader>
+        <CardBody>
+          {!isLoading ? (
+            <TableContainer>
+              <Table
+                tableType="striped"
+                theadType="dark"
+                columns={getColumns()}
+                data={data}
+              />
+            </TableContainer>
+          ) : (
+            <Spinner />
+          )}
+        </CardBody>
+      </CardContainer>
     </div>
   );
 };

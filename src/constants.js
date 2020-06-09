@@ -15,8 +15,32 @@ export const adminListGroupItems = [
 ]
 
 export const infoCardItems = [
-  { id: '1', value: 'Giảng Viên', href: '/admin/info', icon: 'chalkboard-teacher' },
-  { id: '2', value: 'Phòng trống', href: '/admin/info', icon: 'border-none' },
-  { id: '3', value: 'Phòng sử dụng', href: '/admin/info', icon: 'border-all' },
-  { id: '4', value: 'Lịch sử', href: '/admin/info', icon: 'history' },
+  { id: '1', value: 'Giảng Viên', href: '/admin/info', icon: 'chalkboard-teacher', apiPath: '/teachers' },
+  { id: '2', value: 'Phòng trống', href: '/admin/info', icon: 'border-none', apiPath: '/rooms' },
+  { id: '3', value: 'Phòng sử dụng', href: '/admin/info', icon: 'border-all', apiPath: '/rooms' },
+  { id: '4', value: 'Lịch sử', href: '/admin/info', icon: 'history', apiPath: '/logs' },
+]
+
+export const teacherColumns = [
+  { name: "id", title: "Mã số" },
+  { name: "name", title: "Họ tên" },
+  { name: "gender", title: "Phái" },
+  { name: "subject", title: "Bộ môn" },
+  { name: "degree", title: "Học vị" },
+];
+
+export const roomColumns = [
+  { name: "name", title: "Tên phòng" },
+  { name: "section", title: "Khu" },
+  { name: "floor", title: "Lầu" },
+  { name: "isEmpty", title: "Trạng thái" },
+];
+
+
+export const logsColumns = [
+  { name: "inspectorName", title: 'Họ tên' },
+  { name: "inspectorId", title: 'Mã thanh tra' },
+  { name: "action", title: 'Hoạt động' },
+  { name: "at", title: 'Thời gian' }
+
 ]

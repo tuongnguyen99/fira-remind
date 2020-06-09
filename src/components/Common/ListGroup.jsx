@@ -18,7 +18,7 @@ const ListGroup = ({ items, selectedItem, onChange }) => {
             }}
           >
             <i
-              class={className(
+              className={className(
                 "fas mr-2",
                 // { [`fas-${item.icon}`]: item.icon })
                 { [`fa-${item.icon}`]: item.icon }

@@ -8,17 +8,17 @@ const Table = ({ tableType, theadType, columns, data }) => {
     >
       <thead className={className({ ["thead-" + theadType]: theadType })}>
         <tr>
-          {columns.map((col) => {
-            return <th>{col.title}</th>;
+          {columns.map((col, index) => {
+            return <th key={index}>{col.title}</th>;
           })}
         </tr>
       </thead>
       <tbody>
         {data.map((row) => {
           return (
-            <tr>
+            <tr key={row.id}>
               {columns.map((col) => {
-                return <td>{row[col.name]}</td>;
+                return <td key={col.id}>{row[col.name]}</td>;
               })}
             </tr>
           );
