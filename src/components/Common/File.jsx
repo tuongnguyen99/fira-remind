@@ -1,24 +1,24 @@
-import React from 'react';
+import React from "react";
 
 const File = ({ name, label, fileName, labelIcon, helpText }) => {
   return (
-    <div class='form-group'>
+    <div className="form-group">
       <label>
-        <i class={`fas ${labelIcon} mr-2`}></i>
+        <i className={`fas ${labelIcon} mr-2`}></i>
         {label}
       </label>
-      <div class='custom-file'>
+      <div className="custom-file">
         <input
-          type='file'
+          type="file"
           name={name}
-          class='custom-file-input'
-          id='customFile'
+          className="custom-file-input"
+          id="customFile"
         />
-        <label class='custom-file-label' for='customFile'>
+        <label className="custom-file-label" htmlFor="customFile">
           {fileName}
         </label>
       </div>
-      <small id='fileHelpId' class='form-text text-muted'>
+      <small id="fileHelpId" className="form-text text-muted">
         {helpText}
       </small>
     </div>
