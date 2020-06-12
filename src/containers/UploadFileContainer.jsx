@@ -1,15 +1,23 @@
-import React, { useState } from "react";
-import Select from "../components/Common/Select";
-import Input from "../components/Common/Input";
-import File from "../components/Common/File";
-import { toast } from "react-toastify";
-import { selectFileItems, semesterItems } from "../constants";
-import Container from "../components/Common/Container";
-import Row from "../components/Common/Row";
+import React, { useState } from 'react';
+import Select from '../components/Common/Select';
+import Input from '../components/Common/Input';
+import File from '../components/Common/File';
+import { toast } from 'react-toastify';
+import { selectFileItems, semesterItems } from '../constants';
+import Container from '../components/Common/Container';
+import Row from '../components/Common/Row';
+import axios from 'axios';
+import ProgressStriped from '../components/Common/ProgressStriped';
 
 const UploadFileContainer = () => {
   const [formState, setFormState] = useState({
-    importTypeId: "1",
+    importTypeId: '1',
+    teacherList: null,
+    schedule: null,
+  });
+
+  const [uploadProgress, setUploadProgress] = useState({
+    value: 0,
   });
 
   const handleInputChange = (e) => {
@@ -18,63 +26,94 @@ const UploadFileContainer = () => {
     setFormState({ ...formState, importTypeId });
   };
 
+  const handleFileChange = ({ target }) => {
+    console.log(target.files[0]);
+    console.log(target.name);
+
+    setFormState({ ...formState, [target.name]: target.files[0] });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    toast.success("Submitted!");
+    toast.success('Submitted!');
+    const formData = new FormData();
+    formData.append('file', formState.teacherList, formState.teacherList.name);
+    formData.append('file', formState.schedule, formState.schedule.name);
+    axios
+      .post('http://localhost:4000/upload', formData, {
+        onUploadProgress: (progress) => {
+          const value = Math.round((progress.loaded / progress.total) * 100);
+          setUploadProgress({
+            value,
+          });
+        },
+      })
+      .then((res) => {
+        console.log('ok');
+      })
+      .catch('err');
   };
 
   return (
-    <Container className="mt-5">
-      <Row>
-        <div className="col-md-6">
+    <Container className='mt-5'>
+      <Row className='h-80'>
+        <div className='col-md-6 m-auto'>
           <img
-            className="img-thumbnail"
-            src="./img-upload.svg"
-            alt="upload illustrator"
+            className='img-thumbnail'
+            src='./img-upload.svg'
+            alt='upload illustrator'
           />
         </div>
-        <div className="col-md-6 my-auto">
+        <div className='col-md-6 my-auto'>
           <form onSubmit={handleSubmit}>
             <Select
-              name="importType"
-              label="Hình thức nhập liệu"
-              labelIcon="fa-tools text-success"
+              name='importType'
+              label='Hình thức nhập liệu'
+              labelIcon='fa-tools text-success'
               items={selectFileItems}
               onChange={handleInputChange}
             />
-            {formState.importTypeId === "1" ? (
+            {formState.importTypeId === '1' ? (
               <Input
-                name="edusoftLink"
-                label="Liên kết"
-                labelIcon="fa-link text-success"
-                placeholder="https://sv.bdu.edu.vn/default.aspx?page=nhapmasv&flag=ThoiKhoaBieu"
+                name='edusoftLink'
+                label='Liên kết'
+                labelIcon='fa-link text-success'
+                placeholder='https://sv.bdu.edu.vn/default.aspx?page=nhapmasv&flag=ThoiKhoaBieu'
               />
             ) : (
               <React.Fragment>
                 <File
-                  name="teacherList"
-                  label="Danh sách giảng viên"
-                  labelIcon="fa-chalkboard-teacher text-success"
+                  name='teacherList'
+                  label='Danh sách giảng viên'
+                  labelIcon='fa-chalkboard-teacher text-success'
+                  onChange={handleFileChange}
                 />
+
                 <File
-                  name="teacherList"
-                  label="Thời khóa biểu"
-                  labelIcon="fa-calendar text-success"
+                  name='schedule'
+                  label='Thời khóa biểu'
+                  labelIcon='fa-calendar text-success'
+                  onChange={handleFileChange}
                 />
                 <Select
-                  name="inputType"
-                  label="Học kỳ"
-                  labelIcon="fa-tools text-success"
+                  name='schedule'
+                  label='Học kỳ'
+                  labelIcon='fa-tools text-success'
                   items={semesterItems}
                 />
               </React.Fragment>
             )}
 
-            <button type="submit" className="btn btn-primary">
+            <ProgressStriped
+              valueNow={uploadProgress.value}
+              valueMax='100'
+              valueMin='0'
+            />
+            <button type='submit' className='btn btn-primary'>
               Hoàn tất
             </button>
-            <button className="btn btn-outline-danger ml-2">
-              <i className="fas fa-question-circle mr-2"></i>
+            <button className='btn btn-outline-danger ml-2'>
+              <i className='fas fa-question-circle mr-2'></i>
               Trợ giúp
             </button>
           </form>

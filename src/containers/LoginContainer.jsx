@@ -1,16 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../components/Common/Input';
+import Select from '../components/Common/Select';
+import { loginType as lt } from '../constants';
+import { toast } from 'react-toastify';
 
-const LoginPage = () => {
+const LoginPage = ({ history }) => {
+  const [loginTypeId, setLoginTypeId] = useState({ loginTypeId: '1' });
+  const loginIdSet = new Set(['1', '3', '4']);
+
+  const handleInputChange = (e) => {
+    const el = e.target;
+    const loginTypeId = el.options[el.selectedIndex].dataset.id;
+    setLoginTypeId({ loginTypeId });
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // toast.success('Xin chào ...');
+    history.push('/sync');
+  };
+
   return (
     <div className='container'>
-      <div className='row'>
+      <div className='row h-80'>
         <div className='col-md-6 my-auto'>
-          <img src='./img-login.gif' alt='login illustration' />
+          <img
+            className='img-fluid'
+            src='./img-login.gif'
+            alt='login illustration'
+          />
         </div>
-        <div className='col-md-6'>
-          <form action=''>
-            <Input name='username' label='Username' />
+        <div className='col-md-6 m-auto'>
+          <h2 className='mb-4'>Đăng nhập</h2>
+          <form onSubmit={handleLogin}>
+            <Select
+              name='loginType'
+              label='Đối tượng'
+              items={lt}
+              onChange={handleInputChange}
+            />
+
+            <Input
+              name='username'
+              label='Tài khoản'
+              onChange={handleInputChange}
+            />
+            {console.log(loginTypeId.loginTypeId)}
+            {console.log(loginIdSet.has(loginTypeId.loginTypeId))}
+            {loginIdSet.has(loginTypeId.loginTypeId) && (
+              <Input
+                name='username'
+                label='Mật khẩu'
+                onChange={handleInputChange}
+              />
+            )}
+            <button type='submit' className='btn btn-primary'>
+              Đăng nhập
+            </button>
           </form>
         </div>
       </div>

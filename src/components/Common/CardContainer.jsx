@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
 const CardContainer = ({ children, ...rest }) => {
   return (
-    <div class="card" {...rest}>
+    <div className='card' {...rest}>
       {children}
     </div>
   );

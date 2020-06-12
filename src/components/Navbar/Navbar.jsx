@@ -1,15 +1,16 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand navbar-dark bg-dark">
-      <div className="nav navbar-nav">
-        <a className="nav-item nav-link active" href="/">
-          Home <span className="sr-only">(current)</span>
-        </a>
-        <a className="nav-item nav-link" href="/">
+    <nav className='navbar navbar-expand navbar-dark bg-dark'>
+      <div className='nav navbar-nav'>
+        <Link className='nav-item nav-link active' to='/'>
+          Home <span className='sr-only'>(current)</span>
+        </Link>
+        <Link className='nav-item nav-link' to='/'>
           Dashboard
-        </a>
+        </Link>
       </div>
     </nav>
   );
