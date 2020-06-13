@@ -35,7 +35,6 @@ const InspectTabs = () => {
   }, []);
 
   const [statisticData, setStatisticData] = useState([]);
-
   const fetchInspectData = () => {
     Axios.get('https://5edf50379ed06d001696d08b.mockapi.io/api/inspect').then(
       ({ data }) => {

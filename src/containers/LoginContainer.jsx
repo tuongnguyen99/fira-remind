@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Input from '../components/Common/Input';
 import Select from '../components/Common/Select';
-import { loginType as lt } from '../constants';
+import { loginType as lt, loginType } from '../constants';
 import { toast } from 'react-toastify';
 
 const LoginPage = ({ history }) => {
@@ -17,7 +17,25 @@ const LoginPage = ({ history }) => {
   const handleLogin = (e) => {
     e.preventDefault();
     // toast.success('Xin chào ...');
-    history.push('/sync');
+    console.log(loginTypeId.loginTypeId);
+
+    switch (loginTypeId.loginTypeId) {
+      case '1':
+        history.push('/teacher');
+        break;
+      case '2':
+        history.push('/student');
+        break;
+      case '3':
+        history.push('/inspect');
+        break;
+      case '4':
+        history.push('/admin');
+        break;
+      default:
+        history.push('/not-found');
+        break;
+    }
   };
 
   return (
