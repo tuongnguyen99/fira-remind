@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-const SearchBox = ({ value, onChange, onClick }) => {
+const SearchBox = ({ value, onChange, position = "float-right", onClick }) => {
   return (
-    <form className='form-inline my-2 my-lg-2 float-right'>
+    <form className={`form-inline mr-2 ${position}`}>
       <input
-        className='form-control mr-sm-2'
-        type='text'
+        className="form-control mr-sm-2"
+        type="text"
         value={value}
         onChange={onChange}
       />
       <button
-        className='btn btn-outline-primary my-auto my-sm-0'
-        type='submit'
+        className="btn btn-outline-primary my-auto my-sm-0"
+        type="submit"
         onClick={onClick}
       >
         Tìm kiếm
