@@ -1,41 +1,63 @@
 import React, { useState } from 'react';
 import Input from '../components/Common/Input';
 import Select from '../components/Common/Select';
-import { loginType as lt, loginType } from '../constants';
+import { loginType as lt, API_URL } from '../constants';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const LoginPage = ({ history }) => {
-  const [loginTypeId, setLoginTypeId] = useState({ loginTypeId: '1' });
-  const loginIdSet = new Set(['1', '3', '4']);
+  const [loginType, setLoginType] = useState(lt[0]);
+  const [account, setAccount] = useState({ username: '', password: '' });
 
-  const handleInputChange = (e) => {
-    const el = e.target;
-    const loginTypeId = el.options[el.selectedIndex].dataset.id;
-    setLoginTypeId({ loginTypeId });
+  const handleLoginTypeChange = ({ target }) => {
+    const index = target.options[target.selectedIndex].dataset.id - 1;
+    console.log(loginType);
+    setLoginType(lt[index]);
+  };
+
+  const handleAccountChange = ({ target }) => {
+    setAccount({ ...account, [target.name]: target.value });
+  };
+
+  const login = () => {
+    const apiEndPoint = `${API_URL}/user/login`;
+    axios
+      .post(apiEndPoint, account)
+      .then(({ data }) => {
+        if (loginType.nameInDb === data.type) {
+          history.push(loginType.href);
+        } else {
+          toast.warning('Sai Tài khoản hoặc mật khẩu');
+        }
+      })
+      .catch(({ response }) => {
+        if (response.status === 404) {
+          toast.error('Sai tài khoản hoặc mật khẩu');
+        }
+      });
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // toast.success('Xin chào ...');
-    console.log(loginTypeId.loginTypeId);
+    login();
 
-    switch (loginTypeId.loginTypeId) {
-      case '1':
-        history.push('/teacher');
-        break;
-      case '2':
-        history.push('/student');
-        break;
-      case '3':
-        history.push('/inspect');
-        break;
-      case '4':
-        history.push('/admin');
-        break;
-      default:
-        history.push('/not-found');
-        break;
-    }
+    // switch (loginTypeId.loginTypeId) {
+    //   case '1':
+    //     history.push('/teacher');
+    //     break;
+    //   case '2':
+    //     history.push('/student');
+    //     break;
+    //   case '3':
+    //     history.push('/inspect');
+    //     break;
+    //   case '4':
+    //     history.push('/admin');
+    //     break;
+    //   default:
+    //     history.push('/not-found');
+    //     break;
+    // }
   };
 
   return (
@@ -55,21 +77,21 @@ const LoginPage = ({ history }) => {
               name='loginType'
               label='Đối tượng'
               items={lt}
-              onChange={handleInputChange}
+              onChange={handleLoginTypeChange}
             />
 
             <Input
               name='username'
               label='Tài khoản'
-              onChange={handleInputChange}
+              value={account.username}
+              onChange={handleAccountChange}
             />
-            {console.log(loginTypeId.loginTypeId)}
-            {console.log(loginIdSet.has(loginTypeId.loginTypeId))}
-            {loginIdSet.has(loginTypeId.loginTypeId) && (
+            {true && (
               <Input
-                name='username'
+                name='password'
                 label='Mật khẩu'
-                onChange={handleInputChange}
+                value={account.password}
+                onChange={handleAccountChange}
               />
             )}
             <button type='submit' className='btn btn-primary'>

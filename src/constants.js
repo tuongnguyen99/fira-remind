@@ -1,13 +1,15 @@
+export const API_URL = 'http://localhost:4000';
+
 export const selectFileItems = [
   { id: '1', value: 'Liên kết Edusoft' },
   { id: '2', value: 'File excel' },
 ];
 
 export const loginType = [
-  { id: '1', value: 'Giảng viên' },
-  { id: '2', value: 'Sinh viên' },
-  { id: '3', value: 'Thanh tra' },
-  { id: '4', value: 'Admin' },
+  { id: '1', value: 'Giảng viên', nameInDb: 'TEACHER', href: '/teacher' },
+  { id: '2', value: 'Sinh viên', nameInDb: 'STUDENT', href: '/student' },
+  { id: '3', value: 'Thanh tra', nameInDb: 'INSPECTOR', href: '/inspect' },
+  { id: '4', value: 'Admin', nameInDb: 'ADMIN', href: '/admin' },
 ];
 
 export const semesterItems = [
