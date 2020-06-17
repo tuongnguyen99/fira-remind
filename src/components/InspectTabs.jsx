@@ -1,32 +1,35 @@
-import React, { useState, useEffect } from "react";
-import TableCustom from "./Common/TableCustom";
-import Axios from "axios";
-import MiniInput from "./Common/MiniInput";
-import Checkbox from "./Common/Checkbox";
-import SearchBox from "./Common/SearchBox";
-import StatisticTab from "./StatisticTab";
+import React, { useState, useEffect } from 'react';
+import TableCustom from './Common/TableCustom';
+import Axios from 'axios';
+import MiniInput from './Common/MiniInput';
+import Checkbox from './Common/Checkbox';
+import SearchBox from './Common/SearchBox';
+import StatisticTab from './StatisticTab';
 
 const InspectTabs = () => {
   const columns = [
-    { name: "thu", title: "Thứ" },
-    { name: "tiet", title: "Tiết" },
-    { name: "soTiet", title: "Số Tiết" },
-    { name: "maMh", title: "Mã môn học" },
-    { name: "maNv", title: "Mã nhân viên" },
-    { name: "maNhom", title: "Mã nhóm" },
-    { name: "phong", title: "Phòng" },
-    { name: "lop", title: "Lớp" },
-    { name: "siSoDk", title: "Sỉ số ĐK" },
-    { name: "siSo", title: "sỉ số" },
-    { name: "tenMonHoc", title: "Tên MH" },
-    { name: "boTiet", title: "Gv bỏ tiết" },
-    { name: "lenLopTre", title: "Gv lên lớp trễ" },
-    { name: "choNghiSom", title: "Gv cho nghỉ sớm" },
-    { name: "khongDungTen", title: "Gv không đúng tên" },
-    { name: "khongBaoLich", title: "GV dạy không báo lịch" },
-    { name: "chiTiet", title: "Chi tiết" },
-    { name: "thaoTac", title: "Thao tác" },
+    { name: 'thu', title: 'Thứ' },
+    { name: 'tiet', title: 'Tiết' },
+    { name: 'soTiet', title: 'Số Tiết' },
+    { name: 'maMh', title: 'Mã môn học' },
+    { name: 'maNv', title: 'Mã nhân viên' },
+    { name: 'maNhom', title: 'Mã nhóm' },
+    { name: 'phong', title: 'Phòng' },
+    { name: 'lop', title: 'Lớp' },
+    { name: 'siSoDk', title: 'Sỉ số ĐK' },
+    { name: 'siSo', title: 'sỉ số' },
+    { name: 'tenMonHoc', title: 'Tên MH' },
+    { name: 'boTiet', title: 'Gv bỏ tiết' },
+    { name: 'lenLopTre', title: 'Gv lên lớp trễ' },
+    { name: 'choNghiSom', title: 'Gv cho nghỉ sớm' },
+    { name: 'khongDungTen', title: 'Gv không đúng tên' },
+    { name: 'khongBaoLich', title: 'GV dạy không báo lịch' },
+    { name: 'chiTiet', title: 'Chi tiết' },
+    { name: 'thaoTac', title: 'Thao tác' },
   ];
+
+  const [rowData, setRowData] = useState([]);
+  const [inputData, setInputData] = useState({});
 
   const [inspectData, setInspectData] = useState([]);
   useEffect(() => {
@@ -34,19 +37,63 @@ const InspectTabs = () => {
     fetchStatisticData();
   }, []);
 
+  const [searchContent, setSearchContent] = useState('');
+
   const [statisticData, setStatisticData] = useState([]);
+
+  const handleSearchInputChange = ({ target }) => {
+    setSearchContent(target.value);
+  };
+
+  const handleSearchClick = () => {
+    console.log(searchContent);
+    // await fetchInspectData();
+    const filtered = inspectData.filter((item) => {
+      console.log(item);
+
+      return item.tenMonHoc.includes(searchContent);
+    });
+
+    setInspectData(filtered);
+  };
+
+  const handleInputChange = ({ target }) => {
+    console.log(target.dataset.id);
+    console.log(target.type);
+    const data = rowData[target.dataset.id] || {};
+    setRowData({
+      ...rowData,
+      [target.dataset.id]: { ...data, [String(target.name)]: target.checked },
+    });
+
+    if (target.type === 'checkbox') {
+      console.log(target.checked);
+      console.log(target.name);
+
+      console.log(data);
+
+      // setRowData({...rowData, [id]: {[target.name]: } })
+      return;
+    }
+    console.log(target.value);
+  };
+
+  const handleSaveClick = ({ target }) => {
+    console.log(target.dataset.id);
+    console.log(rowData[target.dataset.id]);
+  };
+
   const fetchInspectData = () => {
-    Axios.get("https://5edf50379ed06d001696d08b.mockapi.io/api/inspect").then(
+    Axios.get('https://5edf50379ed06d001696d08b.mockapi.io/api/inspect').then(
       ({ data }) => {
         console.log(data);
-
         setInspectData(data);
       }
     );
   };
 
   const fetchStatisticData = () => {
-    Axios.get("https://5ee38cb15dd8b80016082397.mockapi.io/statistic").then(
+    Axios.get('https://5ee38cb15dd8b80016082397.mockapi.io/statistic').then(
       ({ data }) => {
         setStatisticData(data);
       }
@@ -58,28 +105,79 @@ const InspectTabs = () => {
       return {
         ...item,
         siSo: () => {
-          return <MiniInput name="siSo" />;
+          return (
+            <MiniInput
+              name='siSo'
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
         },
         boTiet: () => {
-          return <Checkbox name="boTiet" />;
+          return (
+            <Checkbox
+              name='boTiet'
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
         },
         lenLopTre: () => {
-          return <Checkbox name="lenLopTre" />;
+          return (
+            <Checkbox
+              name='lenLopTre'
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
         },
         choNghiSom: () => {
-          return <Checkbox name="choNghiSom" />;
+          return (
+            <Checkbox
+              name='choNghiSom'
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
         },
         khongDungTen: () => {
-          return <Checkbox name="khongDungTen" />;
+          return (
+            <Checkbox
+              name='khongDungTen'
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
         },
         khongBaoLich: () => {
-          return <Checkbox name="khongBaoLich" />;
+          return (
+            <Checkbox
+              name='khongBaoLich'
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
         },
         chiTiet: () => {
-          return <MiniInput name="khongBaoLich" style={{ width: 200 }} />;
+          return (
+            <MiniInput
+              name='khongBaoLich'
+              style={{ width: 200 }}
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
         },
         thaoTac: () => {
-          return <button className="btn btn-info">Lưu</button>;
+          return (
+            <button
+              className='btn btn-info'
+              data-id={item.id}
+              onClick={handleSaveClick}
+            >
+              Lưu
+            </button>
+          );
         },
       };
       // return null;
@@ -87,75 +185,79 @@ const InspectTabs = () => {
   };
 
   return (
-    <div className="mt-2">
-      <nav class="breadcrumb">
-        <span class="breadcrumb-item active">Ban thanh tra</span>
+    <div className='mt-2'>
+      <nav class='breadcrumb'>
+        <span class='breadcrumb-item active'>Ban thanh tra</span>
       </nav>
-      <ul className="nav nav-tabs" id="myTab" role="tablist">
-        <li className="nav-item">
+      <ul className='nav nav-tabs' id='myTab' role='tablist'>
+        <li className='nav-item'>
           <a
-            className="nav-link active"
-            id="home-tab"
-            data-toggle="tab"
-            href="#home"
-            role="tab"
-            aria-controls="home"
-            aria-selected="true"
+            className='nav-link active'
+            id='home-tab'
+            data-toggle='tab'
+            href='#home'
+            role='tab'
+            aria-controls='home'
+            aria-selected='true'
           >
             Theo dõi
           </a>
         </li>
-        <li className="nav-item">
+        <li className='nav-item'>
           <a
-            className="nav-link"
-            id="profile-tab"
-            data-toggle="tab"
-            href="#profile"
-            role="tab"
-            aria-controls="profile"
-            aria-selected="false"
+            className='nav-link'
+            id='profile-tab'
+            data-toggle='tab'
+            href='#profile'
+            role='tab'
+            aria-controls='profile'
+            aria-selected='false'
           >
             Thống kê
           </a>
         </li>
-        <li className="nav-item">
+        <li className='nav-item'>
           <a
-            className="nav-link"
-            id="contact-tab"
-            data-toggle="tab"
-            href="#contact"
-            role="tab"
-            aria-controls="contact"
-            aria-selected="false"
+            className='nav-link'
+            id='contact-tab'
+            data-toggle='tab'
+            href='#contact'
+            role='tab'
+            aria-controls='contact'
+            aria-selected='false'
           >
             Thống kê tổng
           </a>
         </li>
       </ul>
-      <div className="tab-content" id="myTabContent">
+      <div className='tab-content' id='myTabContent'>
         <div
-          className="tab-pane fade show active"
-          id="home"
-          role="tabpanel"
-          aria-labelledby="home-tab"
+          className='tab-pane fade show active'
+          id='home'
+          role='tabpanel'
+          aria-labelledby='home-tab'
         >
-          <div className="mb-4">
-            <SearchBox />
+          <div className='mb-4'>
+            <SearchBox
+              onChange={handleSearchInputChange}
+              value={searchContent}
+              onClick={handleSearchClick}
+            />
           </div>
-          <div className="table-responsive">
+          <div className='table-responsive'>
             <TableCustom
               columns={columns}
               data={mapToView()}
-              theadType="dark"
+              theadType='dark'
             />
           </div>
         </div>
         <StatisticTab data={statisticData} />
         <div
-          className="tab-pane fade"
-          id="contact"
-          role="tabpanel"
-          aria-labelledby="contact-tab"
+          className='tab-pane fade'
+          id='contact'
+          role='tabpanel'
+          aria-labelledby='contact-tab'
         >
           ...
         </div>

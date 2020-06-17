@@ -12,7 +12,12 @@ code {
     monospace;
 }
 
-
 .h-80 {
   height: 80vh !important;
+}
+
+.sticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
 }

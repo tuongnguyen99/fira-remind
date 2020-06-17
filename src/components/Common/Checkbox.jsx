@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Checkbox = ({ name, onChange }) => {
+const Checkbox = ({ name, onChange, ...rest }) => {
   return (
     <div class='form-check form-check-inline'>
       <label class='form-check-label'>
@@ -8,6 +8,7 @@ const Checkbox = ({ name, onChange }) => {
           class='form-check-input'
           type='checkbox'
           name={name}
+          {...rest}
           onChange={onChange}
         />
       </label>

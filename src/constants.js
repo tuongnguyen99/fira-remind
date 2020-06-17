@@ -1,3 +1,5 @@
+import getCurrentDate from './utils/time';
+
 export const API_URL = 'http://localhost:4000';
 
 export const selectFileItems = [
@@ -29,21 +31,23 @@ export const infoCardItems = [
     value: 'Giảng Viên',
     href: '/admin/info',
     icon: 'chalkboard-teacher',
-    apiPath: '/teachers',
+    apiPath: '/data/teacher',
   },
   {
     id: '2',
     value: 'Phòng trống',
     href: '/admin/info',
     icon: 'border-none',
-    apiPath: '/rooms',
+    // apiPath: '/rooms',
+    apiPath: '/room/emptyroom/' + '2019-10-12',
   },
   {
     id: '3',
     value: 'Phòng sử dụng',
-    href: '/admin/info',
+    href: '/room/info',
     icon: 'border-all',
-    apiPath: '/rooms',
+    // apiPath: '/rooms/roomuse/' + getCurrentDate(),
+    apiPath: '/room/roomuse/' + '2019-10-12',
   },
   {
     id: '4',
@@ -55,18 +59,19 @@ export const infoCardItems = [
 ];
 
 export const teacherColumns = [
-  { name: 'id', title: 'Mã số' },
-  { name: 'name', title: 'Họ tên' },
-  { name: 'gender', title: 'Phái' },
-  { name: 'subject', title: 'Bộ môn' },
-  { name: 'degree', title: 'Học vị' },
+  { name: 'm_gvien', title: 'Mã số' },
+  { name: 't_gvien', title: 'Họ tên' },
+  { name: 'n_sinh', title: 'Ngày sinh' },
+  { name: 'phai', title: 'Phái' },
+  { name: 'khoa', title: 'Bộ môn' },
+  { name: 't_do', title: 'Học vị' },
 ];
 
 export const roomColumns = [
-  { name: 'name', title: 'Tên phòng' },
-  { name: 'section', title: 'Khu' },
-  { name: 'floor', title: 'Lầu' },
-  { name: 'isEmpty', title: 'Trạng thái' },
+  { name: 'phong', title: 'Tên phòng' },
+  { name: 't_mon', title: 'Tên môn' },
+  { name: 't_bdau', title: 'Tiết bắt đầu' },
+  { name: 't_kthuc', title: 'Tiết kết thúc' },
 ];
 
 export const logsColumns = [

@@ -18,8 +18,6 @@ const TableCustom = ({ tableType, theadType, columns, data }) => {
           return (
             <tr key={row.id}>
               {columns.map((col) => {
-                console.log(row);
-
                 return typeof row[col.name] === 'function' ? (
                   <td key={col.id}>{row[col.name]()}</td>
                 ) : (

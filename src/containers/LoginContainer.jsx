@@ -20,9 +20,15 @@ const LoginPage = ({ history }) => {
   };
 
   const login = () => {
-    const apiEndPoint = `${API_URL}/user/login`;
+    console.log(account);
+    const apiEndPoint = `http://localhost:4000/user/login`;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
     axios
-      .post(apiEndPoint, account)
+      .post(apiEndPoint, { ...account, type: loginType.nameInDb }, config)
       .then(({ data }) => {
         if (loginType.nameInDb === data.type) {
           history.push(loginType.href);
@@ -33,6 +39,7 @@ const LoginPage = ({ history }) => {
       .catch(({ response }) => {
         if (response.status === 404) {
           toast.error('Sai tài khoản hoặc mật khẩu');
+          console.log(response);
         }
       });
   };
@@ -86,7 +93,7 @@ const LoginPage = ({ history }) => {
               value={account.username}
               onChange={handleAccountChange}
             />
-            {true && (
+            {loginType.id !== '2' && (
               <Input
                 name='password'
                 label='Mật khẩu'

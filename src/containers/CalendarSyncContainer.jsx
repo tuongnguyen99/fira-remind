@@ -8,6 +8,8 @@ const axios = require('axios').default;
 
 const CalendarSyncContainer = ({ history }) => {
   const responseGoogle = (response) => {
+    console.log(response);
+
     if (!response.code) {
       // console.log(response);
       if (response.error) {

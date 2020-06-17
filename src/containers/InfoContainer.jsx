@@ -5,8 +5,8 @@ import {
   teacherColumns,
   roomColumns,
   logsColumns,
+  API_URL,
 } from '../constants';
-import CardWithHeader from '../components/Common/CardWithHeader';
 import Table from '../components/Common/Table';
 import Spinner from '../components/Common/Spinner';
 import TableContainer from '../components/Common/TableContainer/TableContainer';
@@ -61,26 +61,26 @@ const InfoContainer = () => {
 
   const getData = (path) => {
     setIsLoading(true);
-    axios
-      .get(`https://5edf50379ed06d001696d08b.mockapi.io/api${path}`)
-      .then(({ data }) => {
-        if (searchContent.trim().length === 0) {
-          setData(data);
-          setIsLoading(false);
-        } else {
-          const filtered = data.filter((item) => {
-            return item.name ? item.name.includes(searchContent) : false;
-          });
-          console.log('====================================');
-          console.log(filtered);
-          console.log('====================================');
-          console.log(data);
+    axios.get(`${API_URL}${path}`).then(({ data }) => {
+      if (searchContent.trim().length === 0) {
+        console.log(data);
 
-          setData(filtered);
-          setIsLoading(false);
-        }
+        setData(data);
         setIsLoading(false);
-      });
+      } else {
+        const filtered = data.filter((item) => {
+          return item.name ? item.name.includes(searchContent) : false;
+        });
+        console.log('====================================');
+        console.log(filtered);
+        console.log('====================================');
+        console.log(data);
+
+        setData(filtered);
+        setIsLoading(false);
+      }
+      setIsLoading(false);
+    });
   };
 
   return (
@@ -103,7 +103,7 @@ const InfoContainer = () => {
             <TableContainer>
               <Table
                 tableType='striped'
-                theadType='dark'
+                theadType='dark sticky'
                 columns={getColumns()}
                 data={data}
               />
