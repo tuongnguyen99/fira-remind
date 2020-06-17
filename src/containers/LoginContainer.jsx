@@ -4,10 +4,12 @@ import Select from '../components/Common/Select';
 import { loginType as lt, API_URL } from '../constants';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import FullScreenSpinner from '../components/Common/FullScreenSpinner/FullScreenSpinner';
 
 const LoginPage = ({ history }) => {
   const [loginType, setLoginType] = useState(lt[0]);
   const [account, setAccount] = useState({ username: '', password: '' });
+  const [isloading, setIsLoading] = useState(false);
 
   const handleLoginTypeChange = ({ target }) => {
     const index = target.options[target.selectedIndex].dataset.id - 1;
@@ -30,13 +32,17 @@ const LoginPage = ({ history }) => {
     axios
       .post(apiEndPoint, { ...account, type: loginType.nameInDb }, config)
       .then(({ data }) => {
+        setIsLoading(false);
         if (loginType.nameInDb === data.type) {
-          history.push(loginType.href);
+          data.hasAccessToken
+            ? history.push(loginType.href)
+            : history.push('/sync');
         } else {
           toast.warning('Sai Tài khoản hoặc mật khẩu');
         }
       })
       .catch(({ response }) => {
+        setIsLoading(false);
         if (response.status === 404) {
           toast.error('Sai tài khoản hoặc mật khẩu');
           console.log(response);
@@ -46,6 +52,7 @@ const LoginPage = ({ history }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     login();
 
     // switch (loginTypeId.loginTypeId) {
@@ -107,6 +114,7 @@ const LoginPage = ({ history }) => {
           </form>
         </div>
       </div>
+      <FullScreenSpinner active={isloading} />
     </div>
   );
 };

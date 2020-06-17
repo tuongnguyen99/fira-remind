@@ -32,20 +32,20 @@ const CalendarSyncContainer = ({ history }) => {
       grant_type: 'authorization_code',
     };
 
-    // axios({
-    //   method: 'POST',
-    //   url: 'https://oauth2.googleapis.com/token',
-    //   data: qs.stringify(reqBody),
-    //   headers: {
-    //     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response);
-    //   });
+    axios({
+      method: 'POST',
+      url: 'https://oauth2.googleapis.com/token',
+      data: qs.stringify(reqBody),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
   };
   return (
     <div className='Calendar-Sync'>
@@ -73,7 +73,7 @@ const CalendarSyncContainer = ({ history }) => {
                 accessType='offline'
                 responseType='code'
                 prompt='consent'
-                isSignedIn={true}
+                // isSignedIn={true}
               />
             </div>
           </div>
