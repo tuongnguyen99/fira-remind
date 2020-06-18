@@ -24,7 +24,12 @@ const AdminContainer = () => {
           <h6 className='d-inline'>Remind FIRA</h6>
         </div>
         <div className='col-md-2 d-flex justify-content-end'>
-          <button className='btn btn-warning m-0'>
+          <button
+            className='btn btn-warning m-0'
+            onClick={() => {
+              window.location = '/';
+            }}
+          >
             <i class='fas fa-sign-out-alt mr-2'></i>
             Logout
           </button>

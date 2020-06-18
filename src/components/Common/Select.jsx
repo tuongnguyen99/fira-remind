@@ -17,7 +17,12 @@ const Select = ({ name, label, items, labelIcon, onChange, ...res }) => {
       >
         {items.map((item) => {
           return (
-            <option key={item.id} value={item.value} data-id={item.id}>
+            <option
+              key={item.id}
+              value={item.value}
+              data-id={item.id}
+              data-name={item.name || ''}
+            >
               {item.value}
             </option>
           );

@@ -6,6 +6,7 @@ import {
   roomColumns,
   logsColumns,
   API_URL,
+  emptyRoomColumns,
 } from '../constants';
 import Table from '../components/Common/Table';
 import Spinner from '../components/Common/Spinner';
@@ -22,6 +23,7 @@ const InfoContainer = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchContent, setSearchContent] = useState('');
+  const [searchAttr, setSearchAttr] = useState('n_sinh');
 
   useEffect(() => {
     getData(infoCardItems[0].apiPath);
@@ -35,14 +37,16 @@ const InfoContainer = () => {
 
   const handleSearchChange = ({ target }) => {
     setSearchContent(target.value);
+    console.log(target);
   };
 
   const handleSearchClick = (e) => {
     e.preventDefault();
-    console.log(infoActive);
+    console.log(searchContent, searchAttr);
+  };
 
-    getData(infoActive.apiPath);
-    console.log(searchContent);
+  const handleAttrChange = ({ target }) => {
+    setSearchAttr(target.options[target.selectedIndex].dataset.name);
   };
 
   const getColumns = () => {
@@ -50,7 +54,7 @@ const InfoContainer = () => {
       case '1':
         return teacherColumns;
       case '2':
-        return roomColumns;
+        return emptyRoomColumns;
       case '3':
         return roomColumns;
       case '4':
@@ -63,25 +67,19 @@ const InfoContainer = () => {
   const getData = (path) => {
     setIsLoading(true);
     axios.get(`${API_URL}${path}`).then(({ data }) => {
-      if (searchContent.trim().length === 0) {
-        console.log(data);
-
-        setData(data);
-        setIsLoading(false);
-      } else {
-        const filtered = data.filter((item) => {
-          return item.t_gvien ? item.t_gvien.includes(searchContent) : false;
-        });
-        console.log('====================================');
-        console.log(filtered);
-        console.log('====================================');
-        console.log(data);
-
-        setData(filtered);
-        setIsLoading(false);
-      }
+      setData(data);
       setIsLoading(false);
     });
+  };
+
+  const getRenderData = () => {
+    if (searchContent.trim.length === 0) {
+      return data;
+    } else {
+      return data.filter((item) => {
+        return item[searchAttr].includes(searchContent);
+      });
+    }
   };
 
   return (
@@ -96,14 +94,15 @@ const InfoContainer = () => {
           <div className='search d-inline float-right'>
             <Select
               items={getColumns().map((item, i) => {
-                return { id: i, value: item.title };
+                return { id: i, value: item.title, name: item.name };
               })}
               style={{
-                width: 100,
+                width: 140,
                 height: 20,
                 marginRight: 4,
                 display: 'inline-block',
               }}
+              onChange={handleAttrChange}
             />
             <SearchBox
               value={searchContent}
@@ -119,7 +118,7 @@ const InfoContainer = () => {
                 tableType='striped'
                 theadType='dark sticky'
                 columns={getColumns()}
-                data={data}
+                data={getRenderData()}
               />
             </TableContainer>
           ) : (

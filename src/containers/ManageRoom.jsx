@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from '../components/Common/Table';
 import RoomModal from '../components/RoomModal';
 import MiniInput from '../components/Common/MiniInput';
@@ -15,6 +15,8 @@ const ManageRoom = () => {
   ];
 
   const getRoomStatus = (date) => {
+    console.log(date);
+
     Axios.get(`${API_URL}/room/statusroom/${date || getCurrentDate()}`)
       .then(({ data }) => {
         console.log(data);
@@ -24,7 +26,7 @@ const ManageRoom = () => {
       .then((err) => {});
   };
 
-  useState(() => {
+  useEffect(() => {
     getRoomStatus();
   }, []);
 
