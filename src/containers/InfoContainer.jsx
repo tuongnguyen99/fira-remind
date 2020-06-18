@@ -14,6 +14,7 @@ import CardContainer from '../components/Common/CardContainer';
 import CardHeader from '../components/Common/CardHeader';
 import CardBody from '../components/Common/CardBody';
 import SearchBox from '../components/Common/SearchBox';
+import Select from '../components/Common/Select';
 const axios = require('axios');
 
 const InfoContainer = () => {
@@ -69,7 +70,7 @@ const InfoContainer = () => {
         setIsLoading(false);
       } else {
         const filtered = data.filter((item) => {
-          return item.name ? item.name.includes(searchContent) : false;
+          return item.t_gvien ? item.t_gvien.includes(searchContent) : false;
         });
         console.log('====================================');
         console.log(filtered);
@@ -92,11 +93,24 @@ const InfoContainer = () => {
       />
       <CardContainer style={{ marginTop: 10 }}>
         <CardHeader title={infoActive.value}>
-          <SearchBox
-            value={searchContent}
-            onChange={handleSearchChange}
-            onClick={handleSearchClick}
-          />
+          <div className='search d-inline float-right'>
+            <Select
+              items={getColumns().map((item, i) => {
+                return { id: i, value: item.title };
+              })}
+              style={{
+                width: 100,
+                height: 20,
+                marginRight: 4,
+                display: 'inline-block',
+              }}
+            />
+            <SearchBox
+              value={searchContent}
+              onChange={handleSearchChange}
+              onClick={handleSearchClick}
+            />
+          </div>
         </CardHeader>
         <CardBody>
           {!isLoading ? (

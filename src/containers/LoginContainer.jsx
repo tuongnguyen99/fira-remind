@@ -33,10 +33,18 @@ const LoginPage = ({ history }) => {
       .post(apiEndPoint, { ...account, type: loginType.nameInDb }, config)
       .then(({ data }) => {
         setIsLoading(false);
+        console.log(data);
+
         if (loginType.nameInDb === data.type) {
-          data.hasAccessToken
-            ? history.push(loginType.href)
-            : history.push('/sync');
+          data.hasToken
+            ? history.push({
+                pathname: loginType.href,
+                state: { userId: data.id, username: data.username },
+              })
+            : history.push({
+                pathname: '/sync',
+                state: { userId: data.id, redirectPath: loginType.href },
+              });
         } else {
           toast.warning('Sai Tài khoản hoặc mật khẩu');
         }
@@ -54,24 +62,6 @@ const LoginPage = ({ history }) => {
     e.preventDefault();
     setIsLoading(true);
     login();
-
-    // switch (loginTypeId.loginTypeId) {
-    //   case '1':
-    //     history.push('/teacher');
-    //     break;
-    //   case '2':
-    //     history.push('/student');
-    //     break;
-    //   case '3':
-    //     history.push('/inspect');
-    //     break;
-    //   case '4':
-    //     history.push('/admin');
-    //     break;
-    //   default:
-    //     history.push('/not-found');
-    //     break;
-    // }
   };
 
   return (

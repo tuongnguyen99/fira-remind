@@ -1,17 +1,20 @@
 import React from 'react';
 import Container from '../components/Common/Container';
 
-const StudentContainer = () => {
+const StudentContainer = ({ history }) => {
+  console.log(history);
+
   return (
     <Container type='fluid'>
       <div className='row'>
         <iframe
-          title='g'
-          className='m-auto'
-          src='https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23039BE5&mode=WEEK&ctz=Asia%2FHo_Chi_Minh&src=bmN0dW9uZzk5QGdtYWlsLmNvbQ&src=dmkudmlldG5hbWVzZSNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%23039BE5&color=%230B8043&showTitle=1'
-          style={{ borderWidth: 0, width: '100%', height: '100vh' }}
-          width={800}
-          height={600}
+          src={`https://calendar.google.com/calendar/embed?src=${history.location.state.username}%40student.bdu.edu.vn&ctz=Asia%2FHo_Chi_Minh?bgcolor=%23ffffff&showCalendars=0&amp;mode=WEEK&amp;showPrint=0" style="border-width:0"`}
+          style={{
+            border: 0,
+            width: '100vw',
+            height: '90vh',
+            margin: '10px',
+          }}
           frameBorder={0}
           scrolling='no'
         />

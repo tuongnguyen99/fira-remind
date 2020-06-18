@@ -2,25 +2,23 @@ import React from 'react';
 import Container from '../components/Common/Container';
 import GoogleLogin from 'react-google-login';
 import { toast } from 'react-toastify';
+import Axios from 'axios';
+import { API_URL } from '../constants';
 
 const qs = require('qs');
 const axios = require('axios').default;
 
 const CalendarSyncContainer = ({ history }) => {
   const responseGoogle = (response) => {
-    console.log(response);
-
     if (!response.code) {
       // console.log(response);
       if (response.error) {
         toast.error(response.error);
         return;
       }
-
       toast('Tu dong dang nhap');
       history.push('/student');
     }
-    console.log(response);
 
     const reqBody = {
       code: response.code + '&',
@@ -40,8 +38,25 @@ const CalendarSyncContainer = ({ history }) => {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
       },
     })
-      .then((res) => {
-        console.log(res);
+      .then(({ data }) => {
+        const accessToken = data.access_token;
+        const refreshToken = data.refresh_token;
+        const expiryDate = data.expires_in;
+        data = {
+          id: history.location.state.userId,
+          access_token: accessToken,
+          refresh_token: refreshToken,
+          expiry_date: expiryDate,
+        };
+
+        const redirectPath = history.location.state.redirectPath;
+        Axios.post(`${API_URL}/user/settoken`, data)
+          .then(({}) => {
+            history.push(redirectPath);
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
       })
       .catch((err) => {
         console.log(err.response);

@@ -68,7 +68,7 @@ export const teacherColumns = [
 ];
 
 export const roomColumns = [
-  { name: 'phong', title: 'Tên phòng' },
+  { name: 't_phong', title: 'Tên phòng' },
   { name: 't_mon', title: 'Tên môn' },
   { name: 't_bdau', title: 'Tiết bắt đầu' },
   { name: 't_kthuc', title: 'Tiết kết thúc' },
