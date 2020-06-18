@@ -8,11 +8,21 @@ export const selectFileItems = [
 ];
 
 export const loginType = [
-  { id: '1', value: 'Giảng viên', nameInDb: 'TEACHER', href: '/teacher' },
-  { id: '2', value: 'Sinh viên', nameInDb: 'STUDENT', href: '/student' },
-  { id: '3', value: 'Thanh tra', nameInDb: 'INSPECTOR', href: '/inspect' },
-  { id: '4', value: 'Admin', nameInDb: 'ADMIN', href: '/admin' },
-];
+         {
+           id: '1',
+           value: 'Giảng viên',
+           nameInDb: 'TEACHER',
+           href: '/teacher',
+         },
+         { id: '2', value: 'Sinh viên', nameInDb: 'STUDENT', href: '/student' },
+         {
+           id: '3',
+           value: 'Thanh tra',
+           nameInDb: 'INSPECTOR',
+           href: '/inspect',
+         },
+         { id: '4', value: 'Admin', nameInDb: 'ADMIN', href: '/admin' },
+       ];
 
 export const semesterItems = [
   { id: '1', value: 'Học kỳ 1' },

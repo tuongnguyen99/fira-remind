@@ -36,7 +36,7 @@ const LoginPage = ({ history }) => {
         console.log(data);
 
         if (loginType.nameInDb === data.type) {
-          data.hasToken
+          data.hasToken || data.type === 'ADMIN' || data.type === 'INSPECTOR'
             ? history.push({
                 pathname: loginType.href,
                 state: { userId: data.id, username: data.username },
