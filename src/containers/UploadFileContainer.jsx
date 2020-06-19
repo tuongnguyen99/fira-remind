@@ -49,6 +49,7 @@ const UploadFileContainer = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         console.log('ok');
       })
       .catch('err');
@@ -56,69 +57,70 @@ const UploadFileContainer = () => {
 
   return (
     <Container className='mt-5'>
-      <Row className='h-80'>
-        <div className='col-md-6 m-auto'>
+      {/* <Row className='h-80'> */}
+      {/* <div className='col-md-6 m-auto'>
           <img
             className='img-thumbnail'
             src='./img-upload.svg'
             alt='upload illustrator'
           />
-        </div>
-        <div className='col-md-6 my-auto'>
-          <form onSubmit={handleSubmit}>
+        </div> */}
+      {/* <div className='col-md-6 my-auto'> */}
+      <form onSubmit={handleSubmit}>
+        <Select
+          name='importType'
+          label='Hình thức nhập liệu'
+          labelIcon='fa-tools text-success'
+          items={selectFileItems}
+          onChange={handleInputChange}
+        />
+        {formState.importTypeId === '1' ? (
+          <Input
+            name='edusoftLink'
+            label='Liên kết'
+            labelIcon='fa-link text-success'
+            placeholder='https://sv.bdu.edu.vn/default.aspx?page=nhapmasv&flag=ThoiKhoaBieu'
+          />
+        ) : (
+          <React.Fragment>
+            <File
+              name='teacherList'
+              label='Danh sách giảng viên'
+              labelIcon='fa-chalkboard-teacher text-success'
+              onChange={handleFileChange}
+            />
+
+            <File
+              name='schedule'
+              label='Thời khóa biểu'
+              labelIcon='fa-calendar text-success'
+              onChange={handleFileChange}
+            />
             <Select
-              name='importType'
-              label='Hình thức nhập liệu'
+              name='schedule'
+              label='Học kỳ'
               labelIcon='fa-tools text-success'
-              items={selectFileItems}
-              onChange={handleInputChange}
+              items={semesterItems}
             />
-            {formState.importTypeId === '1' ? (
-              <Input
-                name='edusoftLink'
-                label='Liên kết'
-                labelIcon='fa-link text-success'
-                placeholder='https://sv.bdu.edu.vn/default.aspx?page=nhapmasv&flag=ThoiKhoaBieu'
-              />
-            ) : (
-              <React.Fragment>
-                <File
-                  name='teacherList'
-                  label='Danh sách giảng viên'
-                  labelIcon='fa-chalkboard-teacher text-success'
-                  onChange={handleFileChange}
-                />
+          </React.Fragment>
+        )}
 
-                <File
-                  name='schedule'
-                  label='Thời khóa biểu'
-                  labelIcon='fa-calendar text-success'
-                  onChange={handleFileChange}
-                />
-                <Select
-                  name='schedule'
-                  label='Học kỳ'
-                  labelIcon='fa-tools text-success'
-                  items={semesterItems}
-                />
-              </React.Fragment>
-            )}
-
-            <ProgressStriped
-              valueNow={uploadProgress.value}
-              valueMax='100'
-              valueMin='0'
-            />
-            <button type='submit' className='btn btn-primary'>
-              Hoàn tất
-            </button>
-            <button className='btn btn-outline-danger ml-2'>
-              <i className='fas fa-question-circle mr-2'></i>
-              Trợ giúp
-            </button>
-          </form>
-        </div>
-      </Row>
+        <ProgressStriped
+          valueNow={uploadProgress.value}
+          valueMax='100'
+          valueMin='0'
+        />
+        <button type='submit' className='btn btn-primary'>
+          Hoàn tất
+        </button>
+        <button className='btn btn-outline-danger ml-2'>
+          <i className='fas fa-question-circle mr-2'></i>
+          Trợ giúp
+        </button>
+      </form>
+      {/* </div> */}
+      {/* </Row> */}
+      {/* {' '} */}
     </Container>
   );
 };

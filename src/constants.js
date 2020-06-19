@@ -23,6 +23,7 @@ export const semesterItems = [
 export const adminListGroupItems = [
   { id: '1', value: 'Thông tin', href: '/admin/info', icon: 'info-circle' },
   { id: '2', value: 'Xếp phòng', href: '/admin/room', icon: 'sitemap' },
+  { id: '3', value: 'File', href: '/admin/file', icon: 'file' },
 ];
 
 export const infoCardItems = [

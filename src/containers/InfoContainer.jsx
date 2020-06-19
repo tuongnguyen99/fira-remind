@@ -113,7 +113,7 @@ const InfoContainer = () => {
         </CardHeader>
         <CardBody>
           {!isLoading ? (
-            <TableContainer>
+            <TableContainer style={{ height: 400 }}>
               <Table
                 tableType='striped'
                 theadType='dark sticky'

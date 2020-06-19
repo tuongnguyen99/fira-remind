@@ -1,8 +1,12 @@
-import React from "react";
-import "./TableContainer.css";
+import React from 'react';
+import './TableContainer.css';
 
-const TableContainer = ({ children }) => {
-  return <div className="table-responsive table-scroll">{children}</div>;
+const TableContainer = ({ children, ...rest }) => {
+  return (
+    <div className='table-responsive table-scroll:' {...rest}>
+      {children}
+    </div>
+  );
 };
 
 export default TableContainer;

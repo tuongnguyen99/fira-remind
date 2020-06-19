@@ -4,6 +4,7 @@ import ListGroup from '../components/Common/ListGroup';
 import { adminListGroupItems } from '../constants';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import InfoContainer from './InfoContainer';
+import UploadFileContainer from './UploadFileContainer';
 import Breadcrumb from '../components/Common/Breadcrumb';
 import ManageRoom from './ManageRoom';
 
@@ -49,6 +50,7 @@ const AdminContainer = () => {
             <Switch>
               <Route path='/admin/info' component={InfoContainer} />
               <Route path='/admin/room' component={ManageRoom} />
+              <Route path='/admin/file' component={UploadFileContainer} />
               <Redirect to='/admin/info' />
             </Switch>
           </div>

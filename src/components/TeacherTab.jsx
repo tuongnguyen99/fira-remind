@@ -2,7 +2,7 @@ import React from 'react';
 
 const TeacherTab = ({ history }) => {
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid p-0'>
       <ul className='nav nav-tabs' id='myTab' role='tablist'>
         <li className='nav-item'>
           <a
@@ -43,11 +43,10 @@ const TeacherTab = ({ history }) => {
               src={`https://calendar.google.com/calendar/embed?src=${history.location.state.username}%40student.bdu.edu.vn&ctz=Asia%2FHo_Chi_Minh?bgcolor=%23ffffff&showCalendars=0&amp;mode=WEEK&amp;showPrint=0" style="border-width:0"`}
               style={{
                 border: 0,
-                width: '90vw',
+                width: '100%',
                 height: '90vh',
                 margin: '10px',
               }}
-              frameBorder={0}
               scrolling='no'
             />
           </div>

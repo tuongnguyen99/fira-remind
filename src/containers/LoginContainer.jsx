@@ -36,6 +36,12 @@ const LoginPage = ({ history }) => {
         console.log(data);
 
         if (loginType.nameInDb === data.type) {
+          if (data.passwordChanged === 0 && data.type !== 'STUDENT') {
+            return history.push({
+              pathname: '/password',
+              state: { user: data, redirectPath: loginType.href },
+            });
+          }
           data.hasToken || data.type === 'ADMIN' || data.type === 'INSPECTOR'
             ? history.push({
                 pathname: loginType.href,
