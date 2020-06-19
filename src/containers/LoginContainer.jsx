@@ -100,6 +100,7 @@ const LoginPage = ({ history }) => {
               <Input
                 name='password'
                 label='Mật khẩu'
+                type='password'
                 value={account.password}
                 onChange={handleAccountChange}
               />
