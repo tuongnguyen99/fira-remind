@@ -6,6 +6,7 @@ import { API_URL } from '../constants';
 
 const ChangePasswordContainer = ({ history }) => {
   const [formData, setFormData] = useState({
+    oldPassword: '',
     newpassword: '',
     prenewpassword: '',
   });
@@ -23,11 +24,9 @@ const ChangePasswordContainer = ({ history }) => {
     } else if (newpassword !== prenewpassword) {
       toast.error('Mật khẩu không khớp');
     } else {
-      console.log(history.location.state.user.id);
-
       const body = {
         id: history.location.state.user.id,
-        oldpassword: history.location.state.user.username,
+        oldpassword,
         newpassword,
       };
       Axios.post(`${API_URL}/changepass`, body)
@@ -53,6 +52,13 @@ const ChangePasswordContainer = ({ history }) => {
       <form className='m-auto' onSubmit={handleSubmit}>
         <h4>Đổi mật khẩu</h4>
 
+        <Input
+          name='oldpassword'
+          value={formData.oldpassword}
+          type='password'
+          label='Mật khẩu cũ'
+          onChange={handleInputChange}
+        />
         <Input
           name='newpassword'
           value={formData.newpassword}
