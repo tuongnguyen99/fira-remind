@@ -56,6 +56,8 @@ const InfoContainer = () => {
 
   const handleSearchClick = (e) => {
     e.preventDefault();
+    console.log(searchContent, searchAttr);
+
     setIsLoading(true);
     axios
       .get(`${API_URL}${infoActive.apiPath}`)
@@ -64,7 +66,7 @@ const InfoContainer = () => {
           setData(data);
         } else {
           const filtered = data.filter((item) => {
-            return item[searchAttr].includes(searchContent);
+            return item[searchAttr].toString().includes(searchContent);
           });
           setData(filtered);
         }

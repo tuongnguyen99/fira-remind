@@ -75,7 +75,7 @@ const ManageRoom = () => {
           Thêm
         </button>
       </div>
-      <div className='my-2'>
+      <div className='my-2 table-responsive' style={{ maxHeight: 460 }}>
         <Table theadType='dark' columns={columns} data={rooms}></Table>
       </div>
       <RoomModal />
