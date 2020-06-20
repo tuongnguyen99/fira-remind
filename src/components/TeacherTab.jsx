@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import TableCustom from './Common/TableCustom';
+import axios from 'axios';
+import { API_URL } from '../constants';
 
 const TeacherTab = ({ history }) => {
-  console.log(history);
+  const [data, setData] = useState([]);
+
+  const tsColumns = [
+    { name: 'thu', title: 'Thứ' },
+    { name: 'm_mon', title: 'mã môn' },
+    { name: 't_mon', title: 'Tên môn học' },
+    { name: 't_bdau', title: 'Tiết bắt đầu' },
+    { name: 's_tiet', title: 'Số tiết' },
+    { name: 's_tiet', title: 'Số tiết' },
+    { name: 'ngay', title: 'Ngày' },
+    { name: 't_thai', title: 'Trạng thái' },
+    {},
+  ];
+
+  useEffect(() => {
+    const { username: teacherId } = history.location.state;
+    axios
+      .get(`${API_URL}/teacher/listteacher/${teacherId}`)
+      .then(({ data }) => {
+        setData(data);
+      })
+      .catch(() => {
+        setData([]);
+      });
+  }, []);
 
   return (
     <div className='container-fluid p-0'>
@@ -63,7 +90,9 @@ const TeacherTab = ({ history }) => {
           role='tabpanel'
           aria-labelledby='contact-tab'
         >
-          ...
+          <div className='table-responsive'>
+            <TableCustom columns={tsColumns} data={data} />
+          </div>
         </div>
       </div>
     </div>

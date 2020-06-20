@@ -13,7 +13,6 @@ const LoginPage = ({ history }) => {
 
   const handleLoginTypeChange = ({ target }) => {
     const index = target.options[target.selectedIndex].dataset.id - 1;
-    console.log(loginType);
     setLoginType(lt[index]);
   };
 
@@ -33,7 +32,6 @@ const LoginPage = ({ history }) => {
       .post(apiEndPoint, { ...account, type: loginType.nameInDb }, config)
       .then(({ data }) => {
         setIsLoading(false);
-        console.log(data);
 
         if (loginType.nameInDb === data.type) {
           if (data.passwordChanged === 0 && data.type !== 'STUDENT') {
@@ -57,7 +55,6 @@ const LoginPage = ({ history }) => {
                   userId: data.id,
                   username: data.username,
                   email: data.email,
-                  redirectPath: loginType.href,
                 },
               });
         } else {

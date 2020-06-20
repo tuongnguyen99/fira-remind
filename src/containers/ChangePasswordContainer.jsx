@@ -5,6 +5,8 @@ import Axios from 'axios';
 import { API_URL } from '../constants';
 
 const ChangePasswordContainer = ({ history }) => {
+  console.log(history.location.state.user.hasToken);
+
   const [formData, setFormData] = useState({
     oldPassword: '',
     newpassword: '',
@@ -12,7 +14,6 @@ const ChangePasswordContainer = ({ history }) => {
   });
 
   const handleInputChange = ({ target }) => {
-    const newState = { ...formData };
     setFormData({ ...formData, [target.name]: target.value });
   };
 
@@ -33,6 +34,20 @@ const ChangePasswordContainer = ({ history }) => {
         .then(({ data }) => {
           const { user, redirectPath } = history.location.state;
           toast.success('Đổi mật khẩu thành công');
+
+          if (!history.location.state.user.hasToken) {
+            history.replace({
+              pathname: '/sync',
+              state: {
+                redirectPath,
+                userId: user.id,
+                username: user.username,
+                email: user.email,
+              },
+            });
+            return;
+          }
+
           history.replace({
             pathname: redirectPath,
             state: {
@@ -43,7 +58,7 @@ const ChangePasswordContainer = ({ history }) => {
           });
         })
         .catch((err) => {
-          console.log(err.response);
+          toast.error(err.response.data.err);
         });
     }
   };
