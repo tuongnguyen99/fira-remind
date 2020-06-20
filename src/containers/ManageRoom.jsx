@@ -20,7 +20,6 @@ const ManageRoom = () => {
     Axios.get(`${API_URL}/room/statusroom/${date || getCurrentDate()}`)
       .then(({ data }) => {
         console.log(data);
-
         setRooms(data);
       })
       .then((err) => {});

@@ -8,7 +8,7 @@ import UploadFileContainer from './UploadFileContainer';
 import Breadcrumb from '../components/Common/Breadcrumb';
 import ManageRoom from './ManageRoom';
 
-const AdminContainer = () => {
+const AdminContainer = ({ history }) => {
   // lg stand for list group
   const [lgSelected, setLgSelected] = useState({ id: '1' });
   const handleLgItemChange = (item) => {
