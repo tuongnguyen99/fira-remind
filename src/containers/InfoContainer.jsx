@@ -66,7 +66,10 @@ const InfoContainer = () => {
           setData(data);
         } else {
           const filtered = data.filter((item) => {
-            return item[searchAttr].toString().includes(searchContent);
+            return item[searchAttr]
+              .toString()
+              .toLowerCase()
+              .includes(searchContent.toLowerCase());
           });
           setData(filtered);
         }
