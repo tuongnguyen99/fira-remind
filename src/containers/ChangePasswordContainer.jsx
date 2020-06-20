@@ -35,7 +35,11 @@ const ChangePasswordContainer = ({ history }) => {
           toast.success('Đổi mật khẩu thành công');
           history.replace({
             pathname: redirectPath,
-            state: { userId: user.id, username: user.username },
+            state: {
+              userId: user.id,
+              username: user.username,
+              email: user.email,
+            },
           });
         })
         .catch((err) => {

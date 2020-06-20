@@ -45,11 +45,20 @@ const LoginPage = ({ history }) => {
           data.hasToken || data.type === 'ADMIN' || data.type === 'INSPECTOR'
             ? history.push({
                 pathname: loginType.href,
-                state: { userId: data.id, username: data.username },
+                state: {
+                  userId: data.id,
+                  username: data.username,
+                  email: data.email,
+                },
               })
             : history.push({
                 pathname: '/sync',
-                state: { userId: data.id, redirectPath: loginType.href },
+                state: {
+                  userId: data.id,
+                  username: data.username,
+                  email: data.email,
+                  redirectPath: loginType.href,
+                },
               });
         } else {
           toast.warning('Sai Tài khoản hoặc mật khẩu');

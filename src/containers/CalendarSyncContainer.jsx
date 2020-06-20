@@ -49,10 +49,17 @@ const CalendarSyncContainer = ({ history }) => {
           expiry_date: expiryDate,
         };
 
-        const redirectPath = history.location.state.redirectPath;
+        const { redirectPath, email } = history.location.state;
         Axios.post(`${API_URL}/user/settoken`, data)
           .then(({}) => {
-            history.push(redirectPath);
+            history.push({
+              pathname: redirectPath,
+              state: {
+                userId: data.id,
+                username: data.username,
+                email,
+              },
+            });
           })
           .catch((err) => {
             console.log(err.response);
