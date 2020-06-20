@@ -8,14 +8,14 @@ import {
   API_URL,
   emptyRoomColumns,
 } from '../constants';
-import Table from '../components/Common/Table';
-import Spinner from '../components/Common/Spinner';
 import TableContainer from '../components/Common/TableContainer/TableContainer';
 import CardContainer from '../components/Common/CardContainer';
 import CardHeader from '../components/Common/CardHeader';
-import CardBody from '../components/Common/CardBody';
 import SearchBox from '../components/Common/SearchBox';
+import CardBody from '../components/Common/CardBody';
+import Spinner from '../components/Common/Spinner';
 import Select from '../components/Common/Select';
+import Table from '../components/Common/Table';
 const axios = require('axios');
 
 const InfoContainer = () => {
@@ -23,31 +23,10 @@ const InfoContainer = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchContent, setSearchContent] = useState('');
-  const [searchAttr, setSearchAttr] = useState('n_sinh');
 
   useEffect(() => {
     getData(infoCardItems[0].apiPath);
   }, []);
-
-  const handleItemChange = (item) => {
-    console.log('onChange');
-    setInfoActive(item);
-    getData(item.apiPath);
-  };
-
-  const handleSearchChange = ({ target }) => {
-    setSearchContent(target.value);
-    console.log(target);
-  };
-
-  const handleSearchClick = (e) => {
-    e.preventDefault();
-    console.log(searchContent, searchAttr);
-  };
-
-  const handleAttrChange = ({ target }) => {
-    setSearchAttr(target.options[target.selectedIndex].dataset.name);
-  };
 
   const getColumns = () => {
     switch (infoActive.id) {
@@ -62,6 +41,45 @@ const InfoContainer = () => {
       default:
         return roomColumns;
     }
+  };
+  const [searchAttr, setSearchAttr] = useState(getColumns()[0].name);
+
+  const handleItemChange = (item) => {
+    setInfoActive(item);
+    getData(item.apiPath);
+    setSearchAttr(item.defaultSearchAttr);
+  };
+
+  const handleSearchChange = ({ target }) => {
+    setSearchContent(target.value);
+  };
+
+  const handleSearchClick = (e) => {
+    e.preventDefault();
+    console.log(searchContent, searchAttr);
+
+    setIsLoading(true);
+    axios
+      .get(`${API_URL}${infoActive.apiPath}`)
+      .then(({ data }) => {
+        if (searchContent.trim().length === 0) {
+          setData(data);
+        } else {
+          const filtered = data.filter((item) => {
+            return item[searchAttr].includes(searchContent);
+          });
+          setData(filtered);
+        }
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        //handle error
+      });
+  };
+
+  const handleAttrChange = ({ target }) => {
+    setSearchAttr(target.options[target.selectedIndex].dataset.name);
   };
 
   const getData = (path) => {
@@ -101,6 +119,7 @@ const InfoContainer = () => {
                 height: 20,
                 marginRight: 4,
                 display: 'inline-block',
+                float: 'left',
               }}
               onChange={handleAttrChange}
             />
@@ -108,6 +127,7 @@ const InfoContainer = () => {
               value={searchContent}
               onChange={handleSearchChange}
               onClick={handleSearchClick}
+              position='float-left'
             />
           </div>
         </CardHeader>

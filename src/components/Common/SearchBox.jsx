@@ -1,12 +1,6 @@
 import React from 'react';
 
-const SearchBox = ({
-  name,
-  value,
-  onChange,
-  position = 'float-right',
-  onClick,
-}) => {
+const SearchBox = ({ name, value, onChange, position = '', onClick }) => {
   return (
     <form className={`form-inline mr-2 ${position}`}>
       <input

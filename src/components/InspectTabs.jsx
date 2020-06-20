@@ -237,7 +237,7 @@ const InspectTabs = () => {
           role='tabpanel'
           aria-labelledby='home-tab'
         >
-          <div className='mb-4'>
+          <div className='my-2 d-flex'>
             <SearchBox
               onChange={handleSearchInputChange}
               value={searchContent}

@@ -36,10 +36,10 @@ const AdminContainer = () => {
           </button>
         </div>
       </div>
-      <Breadcrumb />
+      <Breadcrumb text='Quản trị viên' />
       <div className='main'>
         <div className='row'>
-          <div className='col-md-2'>
+          <div className='col-md-2 mb-2'>
             <ListGroup
               items={adminListGroupItems}
               selectedItem={lgSelected}

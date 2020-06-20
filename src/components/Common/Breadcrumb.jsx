@@ -1,15 +1,9 @@
-import React from "react";
+import React from 'react';
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ text }) => {
   return (
-    <nav className="breadcrumb my-2">
-      <a className="breadcrumb-item" href="#">
-        adsf
-      </a>
-      <a className="breadcrumb-item" href="#">
-        adsf
-      </a>
-      <span className="breadcrumb-item active">asdf</span>
+    <nav className='breadcrumb my-2'>
+      <span className='breadcrumb-item active'>{text}</span>
     </nav>
   );
 };

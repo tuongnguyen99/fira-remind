@@ -33,6 +33,7 @@ export const infoCardItems = [
     href: '/admin/info',
     icon: 'chalkboard-teacher',
     apiPath: '/data/teacher',
+    defaultSearchAttr: 'm_gvien',
   },
   {
     id: '2',
@@ -41,6 +42,7 @@ export const infoCardItems = [
     icon: 'border-none',
     // apiPath: '/rooms',
     apiPath: '/room/emptyroom/' + '2019-10-12',
+    defaultSearchAttr: 't_phong',
   },
   {
     id: '3',
@@ -49,6 +51,7 @@ export const infoCardItems = [
     icon: 'border-all',
     // apiPath: '/rooms/roomuse/' + getCurrentDate(),
     apiPath: '/room/roomuse/' + '2019-10-12',
+    defaultSearchAttr: 't_phong',
   },
   {
     id: '4',
@@ -56,6 +59,7 @@ export const infoCardItems = [
     href: '/admin/info',
     icon: 'history',
     apiPath: '/logs',
+    defaultSearchAttr: 'inspectorName',
   },
 ];
 
