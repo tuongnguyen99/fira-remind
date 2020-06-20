@@ -49,9 +49,11 @@ const LoginPage = ({ history }) => {
                   email: data.email,
                 },
               })
-            : history.push({
+            : // is student
+              history.push({
                 pathname: '/sync',
                 state: {
+                  redirectPath: '/student',
                   userId: data.id,
                   username: data.username,
                   email: data.email,

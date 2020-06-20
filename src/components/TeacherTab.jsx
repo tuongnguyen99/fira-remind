@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import TableCustom from './Common/TableCustom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { API_URL } from '../constants';
+import formatDate from '../utils/time';
 
 const TeacherTab = ({ history }) => {
   const [data, setData] = useState([]);
-
   const tsColumns = [
     { name: 'thu', title: 'Thứ' },
     { name: 'm_mon', title: 'mã môn' },
@@ -15,23 +16,66 @@ const TeacherTab = ({ history }) => {
     { name: 's_tiet', title: 'Số tiết' },
     { name: 'ngay', title: 'Ngày' },
     { name: 't_thai', title: 'Trạng thái' },
-    {},
+    { name: 'action', title: 'Thao tác' },
   ];
 
+  const handleActionClick = ({ target }) => {
+    const body = {
+      id: target.id,
+      status: target.value === 'Học' ? 'Nghỉ' : 'Học',
+    };
+    axios
+      .post(`${API_URL}/teacher/changeSchedule`, body)
+      .then(({ data }) => {
+        console.log(data);
+
+        toast.success('Cập nhật thành công');
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+
+        toast.error('Cập nhật thất bại, vui lòng thử lại sau!');
+      });
+  };
+
   useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
     const { username: teacherId } = history.location.state;
     axios
       .get(`${API_URL}/teacher/listteacher/${teacherId}`)
       .then(({ data }) => {
-        setData(data);
+        const renderData = data.map((item) => {
+          return {
+            ...item,
+            ngay: formatDate(item.ngay),
+
+            action: () => {
+              return (
+                <button
+                  key={item.id}
+                  id={item.id}
+                  value={item.t_thai}
+                  onClick={handleActionClick}
+                >
+                  {item.t_thai === 'Học' ? 'Báo nghỉ' : 'Báo học'}
+                </button>
+              );
+            },
+          };
+        });
+        setData(renderData);
       })
       .catch(() => {
         setData([]);
       });
-  }, []);
+  };
 
   return (
-    <div className='container-fluid p-0'>
+    <div className='container-fluid p-0 mt-2'>
       <ul className='nav nav-tabs' id='myTab' role='tablist'>
         <li className='nav-item'>
           <a
@@ -77,7 +121,6 @@ const TeacherTab = ({ history }) => {
                 border: 0,
                 width: '100%',
                 height: '90vh',
-                margin: '10px',
               }}
               scrolling='no'
             />

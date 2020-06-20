@@ -5,4 +5,13 @@ const getCurrentDate = () => {
   }-${date.getDate()}`;
 };
 
-export default getCurrentDate;
+const formatDate = (str) => {
+  try {
+    const date = new Date(Date.parse(str));
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  } catch (error) {
+    return '';
+  }
+};
+
+export default formatDate;
