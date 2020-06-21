@@ -5,20 +5,22 @@ import MiniInput from './Common/MiniInput';
 import Checkbox from './Common/Checkbox';
 import SearchBox from './Common/SearchBox';
 import StatisticTab from './StatisticTab';
+import { API_URL } from '../constants';
+import getCurrentDate from '../utils/time';
 
 const InspectTabs = () => {
   const columns = [
     { name: 'thu', title: 'Thứ' },
-    { name: 'tiet', title: 'Tiết' },
-    { name: 'soTiet', title: 'Số Tiết' },
-    { name: 'maMh', title: 'Mã môn học' },
-    { name: 'maNv', title: 'Mã nhân viên' },
+    { name: 't_bdau', title: 'Tiết bắt đầu' },
+    { name: 's_tiet', title: 'Số Tiết' },
+    { name: 'm_mon', title: 'Mã môn học' },
+    { name: 'm_gvien', title: 'Mã nhân viên' },
     { name: 'maNhom', title: 'Mã nhóm' },
     { name: 'phong', title: 'Phòng' },
     { name: 'lop', title: 'Lớp' },
-    { name: 'siSoDk', title: 'Sỉ số ĐK' },
+    { name: 's_so', title: 'Sỉ số ĐK' },
     { name: 'siSo', title: 'sỉ số' },
-    { name: 'tenMonHoc', title: 'Tên MH' },
+    { name: 't_mon', title: 'Tên MH' },
     { name: 'boTiet', title: 'Gv bỏ tiết' },
     { name: 'lenLopTre', title: 'Gv lên lớp trễ' },
     { name: 'choNghiSom', title: 'Gv cho nghỉ sớm' },
@@ -84,12 +86,10 @@ const InspectTabs = () => {
   };
 
   const fetchInspectData = () => {
-    Axios.get('https://5edf50379ed06d001696d08b.mockapi.io/api/inspect').then(
-      ({ data }) => {
-        console.log(data);
-        setInspectData(data);
-      }
-    );
+    Axios.get(`${API_URL}/inspect/list/${'2019-09-02'}`).then(({ data }) => {
+      console.log(data);
+      setInspectData(data);
+    });
   };
 
   const fetchStatisticData = () => {
