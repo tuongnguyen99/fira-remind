@@ -2,7 +2,7 @@ import React from 'react';
 
 const SearchBox = ({ name, value, onChange, position = '', onClick }) => {
   return (
-    <form className={`form-inline mr-2 ${position}`}>
+    <form className={`form-inline ${position}`}>
       <input
         className='form-control mr-sm-2'
         name={name}

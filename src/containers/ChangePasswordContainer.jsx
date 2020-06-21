@@ -35,7 +35,11 @@ const ChangePasswordContainer = ({ history }) => {
           const { user, redirectPath } = history.location.state;
           toast.success('Đổi mật khẩu thành công');
 
-          if (!history.location.state.user.hasToken) {
+          if (
+            !user.hasToken &&
+            user.type !== 'ADMIN' &&
+            user.type !== 'INSPECTOR'
+          ) {
             history.replace({
               pathname: '/sync',
               state: {

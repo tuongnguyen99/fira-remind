@@ -4,9 +4,11 @@ import RoomModal from '../components/RoomModal';
 import MiniInput from '../components/Common/MiniInput';
 import SearchBox from '../components/Common/SearchBox';
 import { useState } from 'react';
-import getCurrentDate from '../utils/time';
 import Axios from 'axios';
 import { API_URL } from '../constants';
+import getCurrentDate from '../utils/time';
+import Select from '../components/Common/Select';
+
 const ManageRoom = () => {
   const columns = [
     { name: 't_phong', title: 'Phòng' },
@@ -14,15 +16,28 @@ const ManageRoom = () => {
     { name: 'status', title: 'Trạng thái' },
   ];
 
-  const getRoomStatus = (date) => {
+  const getRoomStatus = (date = getCurrentDate()) => {
     console.log(date);
 
     Axios.get(`${API_URL}/room/statusroom/${date || getCurrentDate()}`)
       .then(({ data }) => {
-        console.log(data);
         setRooms(data);
       })
       .then((err) => {});
+  };
+
+  const translateData = () => {
+    return rooms.map((item) => {
+      return {
+        ...item,
+        status:
+          item.status === 'USING' ? (
+            <strong className='text-warning'>Sử dụng</strong>
+          ) : (
+            <strong className='text-success'>Trống</strong>
+          ),
+      };
+    });
   };
 
   useEffect(() => {
@@ -31,16 +46,12 @@ const ManageRoom = () => {
 
   const [rooms, setRooms] = useState([]);
 
-  const [searchInput, setSearchInput] = useState({
-    searchDate: getCurrentDate(),
-    searchText: '',
-  });
+  const [searchInput, setSearchInput] = useState('');
 
-  const [date, setDate] = useState(getCurrentDate);
+  const [date, setDate] = useState(getCurrentDate());
 
   const handleInputChange = ({ target }) => {
-    console.log(target.name);
-    console.log(target.value);
+    setSearchInput(target.value);
   };
 
   const handleDateChange = ({ target }) => {
@@ -48,25 +59,41 @@ const ManageRoom = () => {
     getRoomStatus(target.value);
   };
 
+  const handleSearchClick = (e) => {
+    e.preventDefault();
+    const filtered = rooms.map((r) => {
+      return (
+        r.t_phong.toLowerCase().includes(searchInput) ||
+        r.khu.toLowerCase().includes(searchInput)
+      );
+    });
+    setRooms(filtered);
+  };
+
   return (
     <div className='Mange-Room'>
-      <div className='head'>
+      <div className='d-flex align-items-center'>
         <MiniInput
           name='searchDate'
           type='date'
-          value={date}
+          value={getCurrentDate()}
           // dark
           placeHolder='dd-MM-yyyy'
           onChange={handleDateChange}
         />
+        <Select
+          items={[{ name: 'afd', value: 'adf' }]}
+          style={{ margin: '0 10px' }}
+        />
         <SearchBox
-          position='float-left'
           name='searchText'
+          value={searchInput}
           onChange={handleInputChange}
+          onClick={handleSearchClick}
         />
         <button
           type='button'
-          className='btn btn-primary float-right mb-2'
+          className='btn btn-primary ml-auto'
           data-toggle='modal'
           data-target='#exampleModalCenter'
         >
@@ -75,7 +102,11 @@ const ManageRoom = () => {
         </button>
       </div>
       <div className='my-2 table-responsive' style={{ maxHeight: 460 }}>
-        <Table theadType='dark' columns={columns} data={rooms}></Table>
+        <Table
+          theadType='dark'
+          columns={columns}
+          data={translateData()}
+        ></Table>
       </div>
       <RoomModal />
     </div>
