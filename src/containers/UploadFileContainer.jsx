@@ -12,8 +12,8 @@ import ProgressStriped from '../components/Common/ProgressStriped';
 const UploadFileContainer = () => {
   const [formState, setFormState] = useState({
     importTypeId: '1',
-    teacherList: null,
-    schedule: null,
+    teacherList: { name: '' },
+    schedule: { name: '' },
   });
 
   const [uploadProgress, setUploadProgress] = useState({
@@ -35,9 +35,6 @@ const UploadFileContainer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    toast.success('Submitted!');
-    console.log(formState);
-
     const formData = new FormData();
     formData.append('file', formState.teacherList, formState.teacherList.name);
     formData.append('file', formState.schedule, formState.schedule.name);
@@ -54,11 +51,10 @@ const UploadFileContainer = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-        console.log('ok');
+        toast.success('Upload file thành công');
       })
       .catch((err) => {
-        console.log(err.response);
+        toast.success('Lỗi upload file, vui lòng thử lại sau');
       });
   };
 
@@ -91,6 +87,7 @@ const UploadFileContainer = () => {
         ) : (
           <React.Fragment>
             <File
+              fileName={formState.teacherList.name}
               name='teacherList'
               label='Danh sách giảng viên'
               labelIcon='fa-chalkboard-teacher text-success'
@@ -100,6 +97,7 @@ const UploadFileContainer = () => {
             <File
               name='schedule'
               label='Thời khóa biểu'
+              fileName={formState.schedule.name}
               labelIcon='fa-calendar text-success'
               onChange={handleFileChange}
             />
