@@ -56,6 +56,11 @@ const TeacherTab = ({ history }) => {
             action: () => {
               return (
                 <button
+                  className={
+                    item.t_thai === 'Học'
+                      ? 'btn btn-warning'
+                      : 'btn btn-success'
+                  }
                   key={item.id}
                   id={item.id}
                   value={item.t_thai}

@@ -36,11 +36,16 @@ const UploadFileContainer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     toast.success('Submitted!');
+    console.log(formState);
+
     const formData = new FormData();
     formData.append('file', formState.teacherList, formState.teacherList.name);
     formData.append('file', formState.schedule, formState.schedule.name);
     axios
       .post('http://localhost:4000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
         onUploadProgress: (progress) => {
           const value = Math.round((progress.loaded / progress.total) * 100);
           setUploadProgress({
@@ -52,7 +57,9 @@ const UploadFileContainer = () => {
         console.log(res);
         console.log('ok');
       })
-      .catch('err');
+      .catch((err) => {
+        console.log(err.response);
+      });
   };
 
   return (
