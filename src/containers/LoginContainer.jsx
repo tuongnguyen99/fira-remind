@@ -32,6 +32,7 @@ const LoginPage = ({ history }) => {
       .post(apiEndPoint, { ...account, type: loginType.nameInDb }, config)
       .then(({ data }) => {
         setIsLoading(false);
+        console.log(data);
 
         if (loginType.nameInDb === data.type) {
           if (data.passwordChanged === 0 && data.type !== 'STUDENT') {
@@ -65,6 +66,8 @@ const LoginPage = ({ history }) => {
       })
       .catch(({ response }) => {
         setIsLoading(false);
+        console.log(response);
+
         if (response.status === 404) {
           toast.error('Sai tài khoản hoặc mật khẩu');
           console.log(response);

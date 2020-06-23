@@ -6,7 +6,7 @@ import SearchBox from '../components/Common/SearchBox';
 import { useState } from 'react';
 import Axios from 'axios';
 import { API_URL } from '../constants';
-import getCurrentDate from '../utils/time';
+import { getCurrentDate } from '../utils/time';
 import Select from '../components/Common/Select';
 
 const ManageRoom = () => {

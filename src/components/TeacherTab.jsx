@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import TableCustom from './Common/TableCustom';
+import MiniInput from './Common/MiniInput';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { API_URL } from '../constants';
-import formatDate from '../utils/time';
+import { tsColumns } from '../constants';
+import { formatDate, getCurrentDate } from '../utils/time';
+
+console.log(formatDate);
 
 const TeacherTab = ({ history }) => {
   const [data, setData] = useState([]);
-  const tsColumns = [
-    { name: 'thu', title: 'Thứ' },
-    { name: 'm_mon', title: 'mã môn' },
-    { name: 't_mon', title: 'Tên môn học' },
-    { name: 't_bdau', title: 'Tiết bắt đầu' },
-    { name: 's_tiet', title: 'Số tiết' },
-    { name: 's_tiet', title: 'Số tiết' },
-    { name: 'ngay', title: 'Ngày' },
-    { name: 't_thai', title: 'Trạng thái' },
-    { name: 'action', title: 'Thao tác' },
-  ];
+  const [date, setDate] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleActionClick = ({ target }) => {
     const body = {
@@ -27,21 +25,13 @@ const TeacherTab = ({ history }) => {
     axios
       .post(`${API_URL}/teacher/changeSchedule`, body)
       .then(({ data }) => {
-        console.log(data);
-
         toast.success('Cập nhật thành công');
         fetchData();
       })
       .catch((err) => {
-        console.log(err);
-
         toast.error('Cập nhật thất bại, vui lòng thử lại sau!');
       });
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const fetchData = () => {
     const { username: teacherId } = history.location.state;
@@ -77,6 +67,25 @@ const TeacherTab = ({ history }) => {
       .catch(() => {
         setData([]);
       });
+  };
+
+  const getRenderData = () => {
+    if (!date) {
+      return data;
+    } else {
+      return data.filter((d) => {
+        console.log(d.ngay, date);
+        return d.ngay.split('-').reverse().join('-') === date;
+      });
+    }
+  };
+
+  const handleDateChange = ({ target }) => {
+    setDate(target.value);
+  };
+
+  const handleTodayBtnClick = () => {
+    setDate(getCurrentDate());
   };
 
   return (
@@ -139,7 +148,16 @@ const TeacherTab = ({ history }) => {
           aria-labelledby='contact-tab'
         >
           <div className='table-responsive'>
-            <TableCustom columns={tsColumns} data={data} />
+            <div className='my-2'>
+              <MiniInput type='date' onChange={handleDateChange} />
+              <button
+                className='btn btn-info mx-2'
+                onClick={handleTodayBtnClick}
+              >
+                Hôm nay
+              </button>
+            </div>
+            <TableCustom columns={tsColumns} data={getRenderData()} />
           </div>
         </div>
       </div>

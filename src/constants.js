@@ -90,3 +90,15 @@ export const logsColumns = [
   { name: 'action', title: 'Hoạt động' },
   { name: 'at', title: 'Thời gian' },
 ];
+
+export const tsColumns = [
+  { name: 'thu', title: 'Thứ' },
+  { name: 'm_mon', title: 'mã môn' },
+  { name: 't_mon', title: 'Tên môn học' },
+  { name: 't_bdau', title: 'Tiết bắt đầu' },
+  { name: 's_tiet', title: 'Số tiết' },
+  { name: 's_tiet', title: 'Số tiết' },
+  { name: 'ngay', title: 'Ngày' },
+  { name: 't_thai', title: 'Trạng thái' },
+  { name: 'action', title: 'Thao tác' },
+];

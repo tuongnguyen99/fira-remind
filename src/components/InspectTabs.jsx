@@ -60,24 +60,23 @@ const InspectTabs = () => {
   };
 
   const handleInputChange = ({ target }) => {
-    console.log(target.dataset.id);
-    console.log(target.type);
     const data = rowData[target.dataset.id] || {};
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     setRowData({
       ...rowData,
-      [target.dataset.id]: { ...data, [String(target.name)]: target.checked },
+      [target.dataset.id]: { ...data, [String(target.name)]: value },
     });
 
-    if (target.type === 'checkbox') {
-      console.log(target.checked);
-      console.log(target.name);
+    // if (target.type === 'checkbox') {
+    //   // console.log(target.checked);
+    //   // console.log(target.name);
 
-      console.log(data);
+    //   // console.log(data);
 
-      // setRowData({...rowData, [id]: {[target.name]: } })
-      return;
-    }
-    console.log(target.value);
+    //   // setRowData({ ...rowData, [id]: { [target.name]: target.value } });
+    //   return;
+    // }
+    // console.log(target.value);
   };
 
   const handleSaveClick = ({ target }) => {
@@ -108,6 +107,7 @@ const InspectTabs = () => {
           return (
             <MiniInput
               name='siSo'
+              type='number'
               data-id={item.id}
               onChange={handleInputChange}
             />
@@ -161,7 +161,7 @@ const InspectTabs = () => {
         chiTiet: () => {
           return (
             <MiniInput
-              name='khongBaoLich'
+              name='chiTiet'
               style={{ width: 200 }}
               data-id={item.id}
               onChange={handleInputChange}
