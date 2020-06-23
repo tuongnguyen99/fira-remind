@@ -56,6 +56,7 @@ const InfoContainer = () => {
 
   const handleSearchClick = (e) => {
     e.preventDefault();
+
     setIsLoading(true);
     axios
       .get(`${API_URL}${infoActive.apiPath}`)
@@ -80,6 +81,7 @@ const InfoContainer = () => {
   };
 
   const handleAttrChange = ({ target }) => {
+    console.log(infoActive.apiPath);
     setSearchAttr(target.options[target.selectedIndex].dataset.name);
   };
 

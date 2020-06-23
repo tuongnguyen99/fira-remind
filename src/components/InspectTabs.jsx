@@ -6,9 +6,10 @@ import Checkbox from './Common/Checkbox';
 import SearchBox from './Common/SearchBox';
 import StatisticTab from './StatisticTab';
 import { API_URL } from '../constants';
-import getCurrentDate from '../utils/time';
+import { getCurrentDate } from '../utils/time';
+import { toast } from 'react-toastify';
 
-const InspectTabs = () => {
+const InspectTabs = ({ uId }) => {
   const columns = [
     { name: 'thu', title: 'Thứ' },
     { name: 't_bdau', title: 'Tiết bắt đầu' },
@@ -19,19 +20,19 @@ const InspectTabs = () => {
     { name: 'phong', title: 'Phòng' },
     { name: 'lop', title: 'Lớp' },
     { name: 's_so', title: 'Sỉ số ĐK' },
-    { name: 'siSo', title: 'sỉ số' },
+    { name: 'sisothucte', title: 'sỉ số' },
     { name: 't_mon', title: 'Tên MH' },
-    { name: 'boTiet', title: 'Gv bỏ tiết' },
-    { name: 'lenLopTre', title: 'Gv lên lớp trễ' },
-    { name: 'choNghiSom', title: 'Gv cho nghỉ sớm' },
-    { name: 'khongDungTen', title: 'Gv không đúng tên' },
-    { name: 'khongBaoLich', title: 'GV dạy không báo lịch' },
-    { name: 'chiTiet', title: 'Chi tiết' },
+    { name: 'nghihoc', title: 'Nghỉ học' },
+    { name: 'gv_botiet', title: 'Gv bỏ tiết' },
+    { name: 'gv_ditre', title: 'Gv lên lớp trễ' },
+    { name: 'gv_nghisom', title: 'Gv cho nghỉ sớm' },
+    { name: 'gv_saiten', title: 'Gv không đúng tên' },
+    { name: 'gv_daykhongthongbao', title: 'GV dạy không báo lịch' },
+    { name: 'chitiet', title: 'Chi tiết' },
     { name: 'thaoTac', title: 'Thao tác' },
   ];
 
   const [rowData, setRowData] = useState([]);
-  const [inputData, setInputData] = useState({});
 
   const [inspectData, setInspectData] = useState([]);
   useEffect(() => {
@@ -48,11 +49,7 @@ const InspectTabs = () => {
   };
 
   const handleSearchClick = () => {
-    console.log(searchContent);
-    // await fetchInspectData();
     const filtered = inspectData.filter((item) => {
-      console.log(item);
-
       return item.tenMonHoc.includes(searchContent);
     });
 
@@ -60,35 +57,48 @@ const InspectTabs = () => {
   };
 
   const handleInputChange = ({ target }) => {
-    const data = rowData[target.dataset.id] || {};
+    const id = target.dataset.id;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    setRowData({
-      ...rowData,
-      [target.dataset.id]: { ...data, [String(target.name)]: value },
+
+    const newData = [...inspectData];
+    const index = inspectData.findIndex((d) => {
+      return d.id == id;
     });
 
-    // if (target.type === 'checkbox') {
-    //   // console.log(target.checked);
-    //   // console.log(target.name);
-
-    //   // console.log(data);
-
-    //   // setRowData({ ...rowData, [id]: { [target.name]: target.value } });
-    //   return;
-    // }
-    // console.log(target.value);
+    newData[index][target.name] = value;
+    setInspectData(newData);
   };
 
   const handleSaveClick = ({ target }) => {
-    console.log(target.dataset.id);
-    console.log(rowData[target.dataset.id]);
+    const id = target.dataset.id;
+    const data = rowData[id];
+    const item = inspectData.filter((d) => {
+      return d.id.toString() === id;
+    })[0];
+
+    const body = {
+      ...item,
+      m_ttra: uId,
+      giovipham: new Date().toLocaleString(),
+    };
+
+    delete body.id;
+
+    Axios.post(`${API_URL}/inspect/evaluate`, body)
+      .then((res) => {
+        toast.info('Cập nhật thành công');
+      })
+      .catch((err) => {
+        toast.error('Lỗi trong khi cập nhật dữ liệu, vui lòng thử lại sau!');
+      });
   };
 
   const fetchInspectData = () => {
-    Axios.get(`${API_URL}/inspect/list/${'2019-09-02'}`).then(({ data }) => {
-      console.log(data);
-      setInspectData(data);
-    });
+    Axios.get(`${API_URL}/inspect/list/${getCurrentDate()}`).then(
+      ({ data }) => {
+        setInspectData(data);
+      }
+    );
   };
 
   const fetchStatisticData = () => {
@@ -103,65 +113,82 @@ const InspectTabs = () => {
     return inspectData.map((item) => {
       return {
         ...item,
-        siSo: () => {
+        sisothucte: () => {
           return (
             <MiniInput
-              name='siSo'
+              value={item.sisothucte || ''}
+              name='sisothucte'
               type='number'
               data-id={item.id}
               onChange={handleInputChange}
             />
           );
         },
-        boTiet: () => {
+        nghihoc: () => {
           return (
             <Checkbox
-              name='boTiet'
+              name='nghihoc'
+              checked={item.nghihoc}
               data-id={item.id}
               onChange={handleInputChange}
             />
           );
         },
-        lenLopTre: () => {
+        gv_botiet: () => {
           return (
             <Checkbox
-              name='lenLopTre'
+              name='gv_botiet'
+              checked={item.gv_botiet}
               data-id={item.id}
               onChange={handleInputChange}
             />
           );
         },
-        choNghiSom: () => {
+        gv_ditre: () => {
           return (
             <Checkbox
-              name='choNghiSom'
+              checked={item.gv_ditre}
+              name='gv_ditre'
               data-id={item.id}
               onChange={handleInputChange}
             />
           );
         },
-        khongDungTen: () => {
+        gv_nghisom: () => {
           return (
             <Checkbox
-              name='khongDungTen'
+              checked={item.gv_nghisom}
+              name='gv_nghisom'
               data-id={item.id}
               onChange={handleInputChange}
             />
           );
         },
-        khongBaoLich: () => {
+        gv_saiten: () => {
           return (
             <Checkbox
-              name='khongBaoLich'
+              checked={item.gv_saiten}
+              name='gv_saiten'
               data-id={item.id}
               onChange={handleInputChange}
             />
           );
         },
-        chiTiet: () => {
+        gv_daykhongthongbao: () => {
+          return (
+            <Checkbox
+              checked={item.gv_daykhongthongbao}
+              name='gv_daykhongthongbao'
+              data-id={item.id}
+              onChange={handleInputChange}
+            />
+          );
+        },
+        chitiet: () => {
           return (
             <MiniInput
-              name='chiTiet'
+              value={item.chitiet === 'null' ? '' : item.chitiet}
+              name='chitiet'
               style={{ width: 200 }}
               data-id={item.id}
               onChange={handleInputChange}
@@ -186,8 +213,8 @@ const InspectTabs = () => {
 
   return (
     <div className='mt-2'>
-      <nav class='breadcrumb'>
-        <span class='breadcrumb-item active'>Ban thanh tra</span>
+      <nav className='breadcrumb'>
+        <span className='breadcrumb-item active'>Ban thanh tra</span>
       </nav>
       <ul className='nav nav-tabs' id='myTab' role='tablist'>
         <li className='nav-item'>

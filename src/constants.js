@@ -1,4 +1,4 @@
-import getCurrentDate from './utils/time';
+import { getCurrentDate } from './utils/time';
 
 export const API_URL = 'http://localhost:4000';
 
@@ -40,8 +40,7 @@ export const infoCardItems = [
     value: 'Phòng trống',
     href: '/admin/info',
     icon: 'border-none',
-    // apiPath: '/rooms',
-    apiPath: '/room/emptyroom/' + '2019-10-12',
+    apiPath: '/room/emptyroom/' + getCurrentDate(),
     defaultSearchAttr: 't_phong',
   },
   {
@@ -49,8 +48,7 @@ export const infoCardItems = [
     value: 'Phòng sử dụng',
     href: '/room/info',
     icon: 'border-all',
-    // apiPath: '/rooms/roomuse/' + getCurrentDate(),
-    apiPath: '/room/roomuse/' + '2019-10-12',
+    apiPath: '/room/roomuse/' + getCurrentDate(),
     defaultSearchAttr: 't_phong',
   },
   {
