@@ -3,6 +3,8 @@ import Input from '../components/Common/Input';
 import { toast } from 'react-toastify';
 import Axios from 'axios';
 import { API_URL } from '../constants';
+import CardContainer from '../components/Common/CardContainer';
+import CardHeader from '../components/Common/CardHeader';
 
 const ChangePasswordContainer = ({ history }) => {
   console.log(history.location.state.user.hasToken);
@@ -70,36 +72,37 @@ const ChangePasswordContainer = ({ history }) => {
   return (
     <div
       className='container'
-      style={{ height: '90vh', width: '90vw', display: 'flex' }}
+      style={{ height: '90vh', width: '100vw', display: 'flex' }}
     >
-      <form className='m-auto' onSubmit={handleSubmit}>
-        <h4>Đổi mật khẩu</h4>
-
-        <Input
-          name='oldpassword'
-          value={formData.oldpassword}
-          type='password'
-          label='Mật khẩu cũ'
-          onChange={handleInputChange}
-        />
-        <Input
-          name='newpassword'
-          value={formData.newpassword}
-          type='password'
-          label='Mật khẩu mới'
-          onChange={handleInputChange}
-        />
-        <Input
-          name='prenewpassword'
-          value={formData.prenewpassword}
-          type='password'
-          label='Nhập lại mật khẩu'
-          onChange={handleInputChange}
-        />
-        <button type='submit' className='btn btn-primary'>
-          Lưu
-        </button>
-      </form>
+      <CardContainer style={{ flex: 1, margin: '10%' }}>
+        <CardHeader title='Đổi mật khẩu' />
+        <form className='m-auto' onSubmit={handleSubmit}>
+          <Input
+            name='oldpassword'
+            value={formData.oldpassword}
+            type='password'
+            label='Mật khẩu cũ'
+            onChange={handleInputChange}
+          />
+          <Input
+            name='newpassword'
+            value={formData.newpassword}
+            type='password'
+            label='Mật khẩu mới'
+            onChange={handleInputChange}
+          />
+          <Input
+            name='prenewpassword'
+            value={formData.prenewpassword}
+            type='password'
+            label='Nhập lại mật khẩu'
+            onChange={handleInputChange}
+          />
+          <button type='submit' className='btn btn-primary'>
+            Lưu
+          </button>
+        </form>
+      </CardContainer>
     </div>
   );
 };
