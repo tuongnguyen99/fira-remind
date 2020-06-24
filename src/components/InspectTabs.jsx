@@ -5,6 +5,7 @@ import MiniInput from './Common/MiniInput';
 import Checkbox from './Common/Checkbox';
 import SearchBox from './Common/SearchBox';
 import StatisticTab from './StatisticTab';
+import Select from './Common/Select';
 import { API_URL } from '../constants';
 import { getCurrentDate } from '../utils/time';
 import { toast } from 'react-toastify';
@@ -32,27 +33,37 @@ const InspectTabs = ({ uId }) => {
     { name: 'thaoTac', title: 'Thao tác' },
   ];
 
-  const [rowData, setRowData] = useState([]);
+  const inspectSearchAttr = [
+    { id: '0', name: 't_bdau', value: 'Tiết bắt đầu' },
+    { id: '1', name: 'm_mon', value: 'Mã môn' },
+    { id: '2', name: 'm_gvien', value: 'Mã giảng viên' },
+    { id: '3', name: 'phong', value: 'Phòng' },
+    { id: '4', name: 'lop', value: 'Lớp' },
+    { id: '5', name: 't_mon', value: 'Tên môn' },
+  ];
 
-  const [inspectData, setInspectData] = useState([]);
   useEffect(() => {
     fetchInspectData();
     fetchStatisticData();
   }, []);
 
-  const [searchContent, setSearchContent] = useState('');
-
+  const [inspectData, setInspectData] = useState([]);
   const [statisticData, setStatisticData] = useState([]);
+  const [searchAttr, setSearchAttr] = useState('t_bdau');
+  const [searchContent, setSearchContent] = useState('');
 
   const handleSearchInputChange = ({ target }) => {
     setSearchContent(target.value);
+  };
+
+  const handleSearchAttrChange = ({ target }) => {
+    setSearchAttr(target.options[target.selectedIndex].dataset.name);
   };
 
   const handleSearchClick = () => {
     const filtered = inspectData.filter((item) => {
       return item.tenMonHoc.includes(searchContent);
     });
-
     setInspectData(filtered);
   };
 
@@ -71,7 +82,6 @@ const InspectTabs = ({ uId }) => {
 
   const handleSaveClick = ({ target }) => {
     const id = target.dataset.id;
-    const data = rowData[id];
     const item = inspectData.filter((d) => {
       return d.id.toString() === id;
     })[0];
@@ -109,8 +119,8 @@ const InspectTabs = ({ uId }) => {
     );
   };
 
-  const mapToView = () => {
-    return inspectData.map((item) => {
+  const mapToView = (data) => {
+    return data.map((item) => {
       return {
         ...item,
         sisothucte: () => {
@@ -211,6 +221,16 @@ const InspectTabs = ({ uId }) => {
     });
   };
 
+  const getRenderData = () => {
+    const data = inspectData;
+    if (searchContent.trim().length === 0) return mapToView(data);
+    return mapToView(
+      data.filter((i) => {
+        return i[searchAttr].toString().includes(searchContent);
+      })
+    );
+  };
+
   return (
     <div className='mt-2'>
       <nav className='breadcrumb'>
@@ -264,17 +284,22 @@ const InspectTabs = ({ uId }) => {
           role='tabpanel'
           aria-labelledby='home-tab'
         >
-          <div className='my-2 d-flex'>
-            <SearchBox
+          <div className='my-2 d-flex justify-content-end'>
+            <Select
+              items={inspectSearchAttr}
+              style={{ margin: 0, marginRight: 6 }}
+              onChange={handleSearchAttrChange}
+            />
+            <MiniInput
               onChange={handleSearchInputChange}
               value={searchContent}
-              onClick={handleSearchClick}
+              style={{ width: 200 }}
             />
           </div>
           <div className='table-responsive'>
             <TableCustom
               columns={columns}
-              data={mapToView()}
+              data={getRenderData(inspectData)}
               theadType='dark'
             />
           </div>

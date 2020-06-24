@@ -2,10 +2,10 @@ import React from 'react';
 
 const Checkbox = ({ name, onChange, ...rest }) => {
   return (
-    <div class='form-check form-check-inline'>
-      <label class='form-check-label'>
+    <div className='form-check form-check-inline'>
+      <label className='form-check-label'>
         <input
-          class='form-check-input'
+          className='form-check-input'
           type='checkbox'
           name={name}
           {...rest}

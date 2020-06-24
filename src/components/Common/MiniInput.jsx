@@ -5,7 +5,7 @@ const MiniInput = ({ name, value, type, dark, onChange, ...rest }) => {
     <input
       type={type}
       value={value}
-      class={`form-control d-inline-block ${dark && 'bg-dark text-light'}`}
+      className={`form-control d-inline-block ${dark && 'bg-dark text-light'}`}
       name={name}
       style={
         type === 'date' ? { height: 40, width: 260 } : { height: 40, width: 60 }
