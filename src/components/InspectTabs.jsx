@@ -60,13 +60,6 @@ const InspectTabs = ({ uId }) => {
     setSearchAttr(target.options[target.selectedIndex].dataset.name);
   };
 
-  const handleSearchClick = () => {
-    const filtered = inspectData.filter((item) => {
-      return item.tenMonHoc.includes(searchContent);
-    });
-    setInspectData(filtered);
-  };
-
   const handleInputChange = ({ target }) => {
     const id = target.dataset.id;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -226,7 +219,10 @@ const InspectTabs = ({ uId }) => {
     if (searchContent.trim().length === 0) return mapToView(data);
     return mapToView(
       data.filter((i) => {
-        return i[searchAttr].toString().includes(searchContent);
+        return i[searchAttr]
+          .toLowerCase()
+          .toString()
+          .includes(searchContent.toLowerCase());
       })
     );
   };
