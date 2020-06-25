@@ -220,8 +220,8 @@ const InspectTabs = ({ uId }) => {
     return mapToView(
       data.filter((i) => {
         return i[searchAttr]
-          .toLowerCase()
           .toString()
+          .toLowerCase()
           .includes(searchContent.toLowerCase());
       })
     );
