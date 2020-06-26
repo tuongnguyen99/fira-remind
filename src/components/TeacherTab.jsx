@@ -155,13 +155,17 @@ const TeacherTab = ({ history }) => {
             <div className='my-2'>
               <MiniInput type='date' onChange={handleDateChange} />
               <button
-                className='btn btn-info mx-2'
+                className={`btn mx-2 ${
+                  date === getCurrentDate() ? 'btn-info' : 'btn-outline-info'
+                }`}
                 onClick={handleTodayBtnClick}
               >
                 Hôm nay
               </button>
               <button
-                className={'btn mr-2' + !date}
+                className={`btn mr-2' ${
+                  !date ? 'btn-info' : 'btn-outline-warning'
+                }`}
                 onClick={handleAllBtnClick}
               >
                 Tất cả
