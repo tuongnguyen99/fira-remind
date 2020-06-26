@@ -88,6 +88,10 @@ const TeacherTab = ({ history }) => {
     setDate(getCurrentDate());
   };
 
+  const handleAllBtnClick = () => {
+    setDate(null);
+  };
+
   return (
     <div className='container-fluid p-0 mt-2'>
       <ul className='nav nav-tabs' id='myTab' role='tablist'>
@@ -155,6 +159,12 @@ const TeacherTab = ({ history }) => {
                 onClick={handleTodayBtnClick}
               >
                 Hôm nay
+              </button>
+              <button
+                className={'btn mr-2' + !date}
+                onClick={handleAllBtnClick}
+              >
+                Tất cả
               </button>
             </div>
             <TableCustom columns={tsColumns} data={getRenderData()} />

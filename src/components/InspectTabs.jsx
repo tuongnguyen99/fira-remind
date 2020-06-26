@@ -17,7 +17,8 @@ const InspectTabs = ({ uId }) => {
     { name: 's_tiet', title: 'Số Tiết' },
     { name: 'm_mon', title: 'Mã môn học' },
     { name: 'm_gvien', title: 'Mã nhân viên' },
-    { name: 'maNhom', title: 'Mã nhóm' },
+    { name: 't_gvien', title: 'Tên giảng viên' },
+
     { name: 'phong', title: 'Phòng' },
     { name: 'lop', title: 'Lớp' },
     { name: 's_so', title: 'Sỉ số ĐK' },
