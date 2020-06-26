@@ -10,6 +10,8 @@ import { API_URL } from '../constants';
 import { getCurrentDate } from '../utils/time';
 import { toast } from 'react-toastify';
 
+//inspect/statistical
+
 const InspectTabs = ({ uId }) => {
   const columns = [
     { name: 'thu', title: 'Thứ' },
@@ -18,7 +20,6 @@ const InspectTabs = ({ uId }) => {
     { name: 'm_mon', title: 'Mã môn học' },
     { name: 'm_gvien', title: 'Mã nhân viên' },
     { name: 't_gvien', title: 'Tên giảng viên' },
-
     { name: 'phong', title: 'Phòng' },
     { name: 'lop', title: 'Lớp' },
     { name: 's_so', title: 'Sỉ số ĐK' },
@@ -106,11 +107,11 @@ const InspectTabs = ({ uId }) => {
   };
 
   const fetchStatisticData = () => {
-    Axios.get('https://5ee38cb15dd8b80016082397.mockapi.io/statistic').then(
-      ({ data }) => {
-        setStatisticData(data);
-      }
-    );
+    Axios.get(`${API_URL}/inspect/statistical`).then(({ data }) => {
+      console.log(data);
+
+      setStatisticData(data);
+    });
   };
 
   const mapToView = (data) => {

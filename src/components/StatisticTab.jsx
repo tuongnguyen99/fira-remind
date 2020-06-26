@@ -5,17 +5,19 @@ import Table from './Common/Table';
 const StatisticTab = ({ data }) => {
   const columns = [
     { name: 'thu', title: 'Thứ' },
-    { name: 'tietBd', title: 'Tiết bắt đầu' },
-    { name: 'soTiet', title: 'Số tiết' },
+    { name: 't_bdau', title: 'Tiết bắt đầu' },
+    { name: 's_tiet', title: 'Số tiết' },
     { name: 'phong', title: 'Phòng' },
     { name: 'lop', title: 'Lớp' },
-    { name: 'siSoDk', title: 'Sỉ số đăng ký' },
-    { name: 'siSo', title: 'Sỉ số' },
-    { name: 'tenMh', title: 'Tên môn học' },
-    { name: 'hoTenGv', title: 'Họ tên Giảng viên' },
+    { name: 's_so', title: 'Sỉ số đăng ký' },
+    { name: 'sisothucte', title: 'Sỉ số' },
+    { name: 't_mhoc', title: 'Tên môn học' },
+    { name: 't_gvien', title: 'Họ tên Giảng viên' },
     { name: 'ngay', title: 'Ngày' },
+    { name: 'chitiet', title: 'Chi tiết' },
+    { name: 'tuan', title: 'Tuần' },
     { name: 'bttCapNhat', title: 'BTT cập nhật' },
-    { name: 'nghiHoc', title: 'Nghỉ học' },
+    { name: 'nghihoc', title: 'Nghỉ học' },
   ];
   return (
     <div
