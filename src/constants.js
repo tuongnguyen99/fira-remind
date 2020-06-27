@@ -1,7 +1,6 @@
 import { getCurrentDate } from './utils/time';
 
-// export const API_URL = 'http://localhost:4000';
-export const API_URL = 'http://192.168.43.65:4000';
+export const API_URL = 'http://localhost:4000';
 
 export const selectFileItems = [
   { id: '1', value: 'Liên kết Edusoft' },
