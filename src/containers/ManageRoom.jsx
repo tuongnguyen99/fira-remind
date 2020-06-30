@@ -31,17 +31,17 @@ const ManageRoom = () => {
     return rooms.map((item) => {
       return {
         ...item,
-        b_sang: item.b_sang ? (
+        b_sang: !item.b_sang ? (
           <strong className='text-success'>Trống</strong>
         ) : (
           <strong className='text-warning'>Sử dụng</strong>
         ),
-        b_chieu: item.b_chieu ? (
+        b_chieu: !item.b_chieu ? (
           <strong className='text-success'>Trống</strong>
         ) : (
           <strong className='text-warning'>Sử dụng</strong>
         ),
-        b_toi: item.b_toi ? (
+        b_toi: !item.b_toi ? (
           <strong className='text-success'>Trống</strong>
         ) : (
           <strong className='text-warning'>Sử dụng</strong>
