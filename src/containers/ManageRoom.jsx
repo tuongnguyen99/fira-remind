@@ -12,14 +12,15 @@ import Select from '../components/Common/Select';
 const ManageRoom = () => {
   const columns = [
     { name: 't_phong', title: 'Phòng' },
-    { name: 'khu', title: 'Khu' },
-    { name: 'status', title: 'Trạng thái' },
+    { name: 'b_sang', title: 'Sáng' },
+    { name: 'b_chieu', title: 'Chiều' },
+    { name: 'b_toi', title: 'Tối' },
   ];
 
   const getRoomStatus = (date = getCurrentDate()) => {
     console.log(date);
 
-    Axios.get(`${API_URL}/room/statusroom/${date || getCurrentDate()}`)
+    Axios.get(`${API_URL}/room/listemptyroom/${date || getCurrentDate()}`)
       .then(({ data }) => {
         setRooms(data);
       })
@@ -30,12 +31,21 @@ const ManageRoom = () => {
     return rooms.map((item) => {
       return {
         ...item,
-        status:
-          item.status === 'USING' ? (
-            <strong className='text-warning'>Sử dụng</strong>
-          ) : (
-            <strong className='text-success'>Trống</strong>
-          ),
+        b_sang: item.b_sang ? (
+          <strong className='text-success'>Trống</strong>
+        ) : (
+          <strong className='text-warning'>Sử dụng</strong>
+        ),
+        b_chieu: item.b_chieu ? (
+          <strong className='text-success'>Trống</strong>
+        ) : (
+          <strong className='text-warning'>Sử dụng</strong>
+        ),
+        b_toi: item.b_toi ? (
+          <strong className='text-success'>Trống</strong>
+        ) : (
+          <strong className='text-warning'>Sử dụng</strong>
+        ),
       };
     });
   };
