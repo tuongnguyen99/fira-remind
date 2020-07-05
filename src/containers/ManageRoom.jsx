@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Table from '../components/Common/Table';
+import TableCustom from '../components/Common/TableCustom';
 import RoomModal from '../components/RoomModal';
 import MiniInput from '../components/Common/MiniInput';
 import SearchBox from '../components/Common/SearchBox';
@@ -112,13 +112,13 @@ const ManageRoom = () => {
         </button>
       </div>
       <div className='my-2 table-responsive' style={{ maxHeight: 460 }}>
-        <Table
+        <TableCustom
           theadType='dark'
           columns={columns}
           data={translateData()}
-        ></Table>
+        ></TableCustom>
       </div>
-      <RoomModal />
+      <RoomModal rooms={rooms} />
     </div>
   );
 };
